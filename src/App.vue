@@ -27,18 +27,22 @@ export default {
 <style lang="scss">
 body {
   // background-color: #67e0a3;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
   background-color: #fff;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
 }
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #67e0a3;
+  width: 100%;
+  height: 100%;
 }
 
 nav {
   padding: 30px;
+  text-align: center;
 
   a {
     font-weight: bold;
@@ -49,4 +53,5 @@ nav {
     }
   }
 }
+//
 </style>
