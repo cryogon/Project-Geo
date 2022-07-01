@@ -32,7 +32,7 @@ router.beforeEach((to, from, next) => {
   if (to.meta?.loginRequired && !tokenPresent) {
     next({ name: "home" });
   } else if (!to.meta?.loginRequired && tokenPresent) {
-    next({ name: "about" });
+    next({ name: "map" });
   } else {
     next();
   }
