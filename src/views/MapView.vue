@@ -3,17 +3,36 @@
     <div v-if="!location">
       {{ locErr }}
     </div>
+    <div v-if="gettingLocation">
+      <img
+        id="loadingAnimation"
+        src="../../public/loading.gif"
+        alt="Loading Animation"
+      />
+    </div>
     <l-map
       v-if="location"
       v-model="zoom"
       v-model:zoom="zoom"
       :center="currLocation"
       @zoom="zoomUpperBound"
-      :options="{ zoomControls: false }"
+      :options="{ zoomControl: false }"
     >
       <l-tile-layer
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        layer-type="base"
+        name="OpenStreetMap"
       ></l-tile-layer>
+      <l-control-attribution
+        position="topright"
+        :attribution="attribution"
+        prefix="Jatin Thakur"
+      ></l-control-attribution>
+      <l-control-zoom
+        position="bottomright"
+        zoom-in-text="+"
+        zoom-out-text="−"
+      />
       <l-marker :lat-lng="currLocation" @moveend="check">
         <l-tooltip> You </l-tooltip>
       </l-marker>
@@ -37,6 +56,8 @@ import {
   LMarker,
   LTooltip,
   LPolyline,
+  LControlZoom,
+  LControlAttribution,
 } from "@vue-leaflet/vue-leaflet";
 import "leaflet/dist/leaflet.css";
 export default {
@@ -47,6 +68,9 @@ export default {
       currLocation: [31.995809, 77.450126],
       locErr: null,
       location: false,
+      attribution:
+        '&copy; <a target="_blank" href="http://osm.org/copyright">OpenStreetMap</a> contributors',
+      gettingLocation: false,
     };
   },
   components: {
@@ -55,6 +79,8 @@ export default {
     LMarker,
     LTooltip,
     LPolyline,
+    LControlZoom,
+    LControlAttribution,
   },
   methods: {
     check() {
@@ -72,16 +98,19 @@ export default {
       this.location = false;
       return;
     }
+    this.gettingLocation = true;
     navigator.geolocation.getCurrentPosition(
       (pos) => {
         this.zoom = 18;
         this.currLocation = [pos.coords.latitude, pos.coords.longitude];
         this.location = true;
         console.log(this.currLocation);
+        this.gettingLocation = false;
       },
       (err) => {
         this.location = false;
         this.locErr = err.message;
+        this.gettingLocation = false;
       }
     );
   },
@@ -95,6 +124,13 @@ export default {
   l-tile-layer {
     height: 100%;
     width: 100%;
+  }
+  #loadingAnimation {
+    position: absolute;
+    top: 25;
+    left: 50;
+    width: 40rem;
+    height: 40rem;
   }
 }
 </style>
