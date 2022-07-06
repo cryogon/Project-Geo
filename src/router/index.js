@@ -23,7 +23,6 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  console.log(store.getters.storeToken);
   const tokenPresent = store.getters.storeToken;
   if (to.meta?.loginRequired && !tokenPresent) {
     next({ name: "home" });

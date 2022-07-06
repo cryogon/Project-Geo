@@ -42,7 +42,6 @@ export default {
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@200&display=swap");
 .card {
   font-family: "Montserrat", sans-serif;
-  // background: linear-gradient(45deg, rgb(114, 50, 82), rebeccapurple);
   background-color: #023047;
   margin: 10% 20%;
   padding: 10rem 10rem;
@@ -53,10 +52,6 @@ export default {
     }
   }
   form {
-    // display: grid;
-    // grid-template-columns: 1fr 1fr;
-    // grid-template-rows: repeat(3, 1fr);
-    // place-items: center;
     position: relative;
     padding: 15px 0 0;
     margin-top: 10px;
@@ -125,7 +120,6 @@ export default {
     }
   }
   .inputLabel {
-    // grid-column: 1/2;
     position: absolute;
     display: block;
     font-size: 1px;

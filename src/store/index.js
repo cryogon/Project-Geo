@@ -22,7 +22,6 @@ export default createStore({
   },
   actions: {
     login(context) {
-      // TODO: Login API call
       context.commit("updateToken", "jatinthakur");
       router.push("/about");
       context.commit("updateVisible", true);

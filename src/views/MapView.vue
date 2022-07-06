@@ -144,7 +144,6 @@ export default {
   height: inherit;
   width: inherit;
   padding-inline-end: 1rem;
-  // margin-inline-start: 20rem;
   .mainMap {
     width: inherit;
     height: inherit;
