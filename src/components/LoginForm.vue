@@ -31,7 +31,6 @@
 export default {
   methods: {
     doLogin() {
-      console.log("klik");
       this.$store.dispatch("login");
     },
   },
