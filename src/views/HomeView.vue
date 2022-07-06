@@ -16,7 +16,6 @@ export default {
 </script>
 <style lang="scss">
 input {
-  // display: block;
   margin: 0.2rem;
 }
 </style>

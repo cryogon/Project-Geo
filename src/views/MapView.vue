@@ -52,7 +52,6 @@
         ]"
         color="red"
       ></l-polyline>
-      <!-- <l-geo-json :geojson="geojson"></l-geo-json> -->
     </l-map>
   </div>
 </template>
