@@ -3,7 +3,7 @@
     <button @click="onCreateMode = true">createPath</button>
     <input v-if="onCreateMode" type="text" v-model="pathName" />
     <button v-if="onCreateMode" @click="createPolyline">Done</button>
-    <div v-if="!location">
+    <div v-if="!isLocAvailable">
       {{ locErr }}
     </div>
     <div v-if="gettingLocation">
@@ -15,12 +15,13 @@
     </div>
     <l-map
       class="mainMap"
-      v-if="location"
+      ref="map"
+      v-if="isLocAvailable"
       v-model="zoom"
       v-model:zoom="zoom"
       :center="currLocation"
       @zoom="zoomUpperBound"
-      :options="{ zoomControl: false }"
+      :options="{ zoomControl: false, maxZoom: 18 }"
       @click="getCurrLoc"
     >
       <l-tile-layer
@@ -72,6 +73,15 @@ import {
   LPopup,
 } from "@vue-leaflet/vue-leaflet";
 import "leaflet/dist/leaflet.css";
+import Vue from "vue";
+let c = Vue.extend(LPolyline);
+let instance = new c({
+  name: this.pathName,
+  latLng: this.locations,
+});
+instance.$slots.default = ["Click me!"];
+instance.$mount();
+this.$ref.map.appendChild(instance.$el);
 export default {
   data() {
     return {
@@ -79,8 +89,8 @@ export default {
       geojson: null,
       currLocation: [31.995809, 77.450126],
       locErr: null,
-      locByClick: [],
-      location: false,
+      locations: [],
+      isLocAvailable: false,
       onCreateMode: false,
       pathName: "",
     };
@@ -108,26 +118,26 @@ export default {
       try {
         const { lat, lng } = e.latlng;
         if (this.onCreateMode === true) {
-          this.locByClick.push([lat, lng]);
+          this.locations.push([lat, lng]);
         }
       } catch (err) {
         console.log("what is err");
       }
     },
     createPolyline() {
-      console.log(this.locByClick);
+      console.log(this.locations);
       //Code
 
       //Reset Inputs
       this.pathName = "";
       this.onCreateMode = false;
-      this.locByClick = [];
+      this.locations = [];
     },
   },
   created() {
     if (!("geolocation" in navigator)) {
       this.locErr = "GeoLocation is not available";
-      this.location = false;
+      this.isLocAvailable = false;
       return;
     }
     this.gettingLocation = true;
@@ -135,11 +145,11 @@ export default {
       (pos) => {
         this.zoom = 18;
         this.currLocation = [pos.coords.latitude, pos.coords.longitude];
-        this.location = true;
+        this.isLocAvailable = true;
         this.gettingLocation = false;
       },
       (err) => {
-        this.location = false;
+        this.isLocAvailable = false;
         this.locErr = err.message;
         this.gettingLocation = false;
       }
