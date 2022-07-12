@@ -2,6 +2,7 @@
   <div class="container">
     <nav>
       <h1 class="appName">Project Geo</h1>
+      <h2>{{ hello }}</h2>
       <button v-if="visible" @click.prevent="doLogout" class="logout">
         Logout
       </button>
@@ -13,8 +14,23 @@
 </template>
 <script>
 import { mapState } from "vuex";
+import gql from "graphql-tag";
+
 export default {
   name: "MainComponents",
+  apollo: {
+    hello: gql`
+      query {
+        todos {
+          id
+          title
+        }
+      }
+    `,
+  },
+  data() {
+    "";
+  },
   created() {
     this.$store.dispatch("loadToken");
   },

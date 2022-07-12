@@ -73,15 +73,6 @@ import {
   LPopup,
 } from "@vue-leaflet/vue-leaflet";
 import "leaflet/dist/leaflet.css";
-import Vue from "vue";
-let c = Vue.extend(LPolyline);
-let instance = new c({
-  name: this.pathName,
-  latLng: this.locations,
-});
-instance.$slots.default = ["Click me!"];
-instance.$mount();
-this.$ref.map.appendChild(instance.$el);
 export default {
   data() {
     return {
