@@ -1,9 +1,10 @@
 <template>
   <div class="card">
     <div class="header">
-      <h1>LOGIN</h1>
+      <h1 @click="inLoginForm = true">LOGIN</h1>
+      <h1 @click="inLoginForm = false">Signup</h1>
     </div>
-    <form autocomplete="off">
+    <form autocomplete="off" v-if="inLoginForm">
       <input
         id="emailInput"
         type="text"
@@ -24,14 +25,104 @@
       </label>
       <button @click.prevent="doLogin">Login</button>
     </form>
+
+    <form autocomplete="off" v-if="!inLoginForm">
+      <input
+        id="nameInput"
+        type="text"
+        class="inputFieldSignup"
+        name="name"
+        placeholder="Name"
+        v-model="name"
+      />
+      <input
+        id="usernameInput"
+        type="text"
+        class="inputFieldSignup"
+        name="username"
+        placeholder="username"
+        v-model="username"
+      />
+      <input
+        id="emailInput"
+        type="email"
+        class="inputFieldSignup"
+        name="email"
+        placeholder="Email"
+        v-model="email"
+      />
+      <label for="email" class="inputLabel" id="emailLabel">Email</label>
+      <input
+        type="password"
+        name="password"
+        id="passwordInput"
+        class="inputFieldSignup"
+        placeholder="Password"
+        v-model="password"
+      />
+      <label for="password" class="inputLabelSignup" id="passwordLabel"
+        >Password
+      </label>
+      <button @click.prevent="doSignup">Login</button>
+    </form>
   </div>
 </template>
 
 <script>
+import gql from "graphql-tag";
 export default {
+  data() {
+    return {
+      name: "",
+      username: "",
+      password: "",
+      email: "",
+      inLoginForm: true,
+    };
+  },
   methods: {
-    doLogin() {
-      this.$store.dispatch("login");
+    async doSignup() {
+      if (!this.name && !this.email && !this.username && !this.password) {
+        return alert("Fill all the details before signup");
+      }
+      try {
+        let data = await this.$apollo.mutate({
+          mutation: gql`
+            mutation insertUsers(
+              $name: String!
+              $username: String!
+              $email: String!
+              $password: String!
+            ) {
+              insert_users(
+                objects: {
+                  name: $name
+                  username: $username
+                  email: $email
+                  password: $password
+                }
+              ) {
+                affected_rows
+                returning {
+                  name
+                  username
+                  email
+                }
+              }
+            }
+          `,
+          variables: {
+            name: this.name,
+            email: this.email,
+            password: this.password,
+            username: this.username,
+          },
+        });
+        console.log(data);
+        this.$store.dispatch("login");
+      } catch (err) {
+        console.error(err);
+      }
     },
   },
 };
@@ -46,6 +137,8 @@ export default {
   padding: 10rem 10rem;
   box-shadow: 15px 15px 1rem #023047a8;
   .header {
+    display: flex;
+    justify-content: space-between;
     h1 {
       margin-top: -5rem;
     }

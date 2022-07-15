@@ -3,6 +3,8 @@
     <button @click="onCreateMode = true">createPath</button>
     <input v-if="onCreateMode" type="text" v-model="pathName" />
     <button v-if="onCreateMode" @click="createPolyline">Done</button>
+    <button v-if="onCreateMode" @click="cancel">Cancel</button>
+    <span v-if="onCreateMode">Selected Path: {{ locations }}</span>
     <div v-if="!isLocAvailable">
       {{ locErr }}
     </div>
@@ -120,6 +122,11 @@ export default {
       //Code
 
       //Reset Inputs
+      this.pathName = "";
+      this.onCreateMode = false;
+      this.locations = [];
+    },
+    cancel() {
       this.pathName = "";
       this.onCreateMode = false;
       this.locations = [];

@@ -14,22 +14,12 @@
 </template>
 <script>
 import { mapState } from "vuex";
-import gql from "graphql-tag";
-
 export default {
   name: "MainComponents",
-  apollo: {
-    hello: gql`
-      query {
-        todos {
-          id
-          title
-        }
-      }
-    `,
-  },
   data() {
-    "";
+    return {
+      hello: "",
+    };
   },
   created() {
     this.$store.dispatch("loadToken");
@@ -54,7 +44,7 @@ body {
   background-color: #fff;
   width: 100vw;
   height: 100vh;
-  overflow: hidden;
+  overflow-x: hidden;
 }
 .container {
   display: grid;

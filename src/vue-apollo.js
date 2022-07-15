@@ -1,38 +1,29 @@
 import {
   ApolloClient,
-  createHttpLink,
   InMemoryCache,
-  ApolloLink,
+  createHttpLink,
   concat,
+  ApolloLink,
 } from "@apollo/client/core";
 import { createApolloProvider } from "@vue/apollo-option";
 
-// HTTP connection to the API
-const httpLink = createHttpLink({
-  // You should use an absolute URL here
-  uri: "https://dashing-mouse-23.hasura.app/v1/graphql",
-});
-
-//Auth
-
-const middlewareAuth = new ApolloLink((operation, forward) => {
-  const token = localStorage.getItem("loginToken");
+const authMiddleware = new ApolloLink((operation, forward) => {
   operation.setContext({
     headers: {
-      authorization: token ? `Bearer ${token}` : "",
+      "x-hasura-admin-secret":
+        "NVs51OIy1kNqQiVO6zZK7ye3VGknsNWiPBK9tn4Aqb3uwgvn3uOXXDuJNG8kJ6m9",
     },
   });
   return forward(operation);
 });
-
-// Cache implementation
-const cache = new InMemoryCache();
-
-// Create the apollo client
-export const apolloClient = new ApolloClient({
-  link: concat(middlewareAuth, httpLink),
-  cache,
+const httpLink = createHttpLink({
+  uri: "https://tidy-seasnail-24.hasura.app/v1/graphql",
 });
+const apolloClient = new ApolloClient({
+  link: concat(authMiddleware, httpLink),
+  cache: new InMemoryCache(),
+});
+
 export const apolloProvider = createApolloProvider({
   defaultClient: apolloClient,
 });

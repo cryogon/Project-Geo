@@ -17,6 +17,7 @@
     "@vue-leaflet/vue-leaflet": "^0.6.1",
     "@vue/apollo-option": "^4.0.0-alpha.18",
     "apollo": "^2.34.0",
+    "cache-loader": "^4.1.0",
     "core-js": "^3.8.3",
     "graphql": "^16.5.0",
     "graphql-tag": "^2.12.6",
