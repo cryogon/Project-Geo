@@ -6,14 +6,16 @@ import {
   ApolloLink,
 } from "@apollo/client/core";
 import { createApolloProvider } from "@vue/apollo-option";
-
 const authMiddleware = new ApolloLink((operation, forward) => {
   operation.setContext({
     headers: {
       "x-hasura-admin-secret":
         "NVs51OIy1kNqQiVO6zZK7ye3VGknsNWiPBK9tn4Aqb3uwgvn3uOXXDuJNG8kJ6m9",
+      "x-hasura-role": "user",
+      "x-hasura-user-name": localStorage.getItem("loginToken"),
     },
   });
+  console.log(operation.getContext("headers"));
   return forward(operation);
 });
 const httpLink = createHttpLink({

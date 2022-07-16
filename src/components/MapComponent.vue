@@ -75,6 +75,7 @@ import {
   LPopup,
 } from "@vue-leaflet/vue-leaflet";
 import "leaflet/dist/leaflet.css";
+import gql from "graphql-tag";
 export default {
   data() {
     return {
@@ -108,23 +109,42 @@ export default {
       }
     },
     getCurrLoc(e) {
-      try {
-        const { lat, lng } = e.latlng;
-        if (this.onCreateMode === true) {
+      if (this.onCreateMode === true) {
+        try {
+          const { lat, lng } = e.latlng;
           this.locations.push([lat, lng]);
+        } catch (err) {
+          console.warn(
+            "It's working fine but there are some problems to be fixed"
+          );
         }
-      } catch (err) {
-        console.log("what is err");
       }
     },
-    createPolyline() {
-      console.log(this.locations);
-      //Code
-
-      //Reset Inputs
-      this.pathName = "";
-      this.onCreateMode = false;
-      this.locations = [];
+    async createPolyline() {
+      try {
+        //Code
+        const data = this.$apollo.mutate({
+          mutation: gql`
+            mutation setPath($name: String!, $path: jsonb!) {
+              insert_paths(objects: { path_name: $name, path: $path }) {
+                affected_rows
+                returning {
+                  path_name
+                  path
+                }
+              }
+            }
+          `,
+          variables: { name: this.pathName, path: { path: this.locations } },
+        });
+        console.log(data);
+        //Reset Inputs
+        this.pathName = "";
+        this.onCreateMode = false;
+        this.locations = [];
+      } catch (err) {
+        console.log(err);
+      }
     },
     cancel() {
       this.pathName = "";

@@ -11,6 +11,7 @@
         class="inputField"
         name="email"
         placeholder="Email"
+        v-model="loginEmail"
       />
       <label for="email" class="inputLabel" id="emailLabel">Email</label>
       <input
@@ -19,6 +20,7 @@
         id="passwordInput"
         class="inputField"
         placeholder="Password"
+        v-model="loginPassword"
       />
       <label for="password" class="inputLabel" id="passwordLabel"
         >Password
@@ -70,6 +72,7 @@
 
 <script>
 import gql from "graphql-tag";
+import { mapState } from "vuex";
 export default {
   data() {
     return {
@@ -78,9 +81,24 @@ export default {
       password: "",
       email: "",
       inLoginForm: true,
+      loginEmail: ``,
+      loginPassword: ``,
     };
   },
   methods: {
+    async doLogin() {
+      let data = await this.$apollo.query({
+        query: gql`
+          query checkUsers {
+            users {
+              email
+              password
+            }
+          }
+        `,
+      });
+      console.log(data);
+    },
     async doSignup() {
       if (!this.name && !this.email && !this.username && !this.password) {
         return alert("Fill all the details before signup");
@@ -119,11 +137,14 @@ export default {
           },
         });
         console.log(data);
-        this.$store.dispatch("login");
+        localStorage.setItem("loginToken", this.username);
       } catch (err) {
         console.error(err);
       }
     },
+  },
+  computed: {
+    ...mapState(["currUser"]),
   },
 };
 </script>
