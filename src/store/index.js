@@ -5,6 +5,7 @@ export default createStore({
   state: {
     token: "",
     visible: false,
+    currUser: "",
   },
   getters: {
     storeToken(state) {
@@ -22,8 +23,9 @@ export default createStore({
   },
   actions: {
     login(context) {
-      context.commit("updateToken", "jatinthakur");
-      router.push("/about");
+      context.commit("updateToken", localStorage.getItem("token"));
+      console.log(this.state.currUser);
+      router.push("/map");
       context.commit("updateVisible", true);
     },
     logout(context) {

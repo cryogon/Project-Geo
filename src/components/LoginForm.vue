@@ -1,38 +1,130 @@
 <template>
   <div class="card">
     <div class="header">
-      <h1>LOGIN</h1>
+      <h1 @click="inLoginForm = true">LOGIN</h1>
+      <h1 @click="inLoginForm = false">SIGNUP</h1>
     </div>
-    <form autocomplete="off">
+    <form autocomplete="off" v-if="inLoginForm">
       <input
-        id="emailInput"
+        id="userNameInput"
         type="text"
         class="inputField"
-        name="email"
-        placeholder="Email"
+        name="username"
+        placeholder="username"
+        v-model="username"
       />
-      <label for="email" class="inputLabel" id="emailLabel">Email</label>
+      <label for="email" class="inputLabel" id="emailLabel">username</label>
       <input
         type="password"
         name="password"
         id="passwordInput"
         class="inputField"
         placeholder="Password"
+        v-model="password"
       />
       <label for="password" class="inputLabel" id="passwordLabel"
-        >Password
+        >password
       </label>
       <button @click.prevent="doLogin">Login</button>
+    </form>
+
+    <form autocomplete="off" v-if="!inLoginForm">
+      <input
+        id="userNameInput"
+        type="text"
+        class="inputField"
+        name="username"
+        placeholder="username"
+        v-model="username"
+      />
+      <label for="email" class="inputLabel" id="emailLabel">username</label>
+      <input
+        type="password"
+        name="password"
+        id="passwordInput"
+        class="inputField"
+        placeholder="Password"
+        v-model="password"
+      />
+      <label for="password" class="inputLabel" id="passwordLabel"
+        >password
+      </label>
+      <button @click.prevent="doSignup">Signup</button>
     </form>
   </div>
 </template>
 
 <script>
+import gql from "graphql-tag";
+import { mapState } from "vuex";
+import router from "@/router";
 export default {
+  data() {
+    return {
+      username: "",
+      password: "",
+      inLoginForm: true,
+    };
+  },
   methods: {
-    doLogin() {
-      this.$store.dispatch("login");
+    async doLogin() {
+      localStorage.setItem("token", this.username);
+      let data = await this.$apollo.query({
+        query: gql`
+          query checkUsers {
+            users {
+              username
+              password
+            }
+          }
+        `,
+      });
+      try {
+        if (
+          data.data.users[0].username === this.username &&
+          data.data.users[0].password == this.password
+        ) {
+          this.$store.dispatch("login");
+        }
+      } catch (err) {
+        alert("Email or Password is wrong");
+      }
     },
+    doSignup() {
+      if (!this.username && !this.password) {
+        return alert("Fill all the details before signup");
+      }
+      try {
+        this.$apollo.mutate({
+          mutation: gql`
+            mutation insertUsers($username: String!, $password: String!) {
+              insert_users(
+                objects: { username: $username, password: $password }
+              ) {
+                affected_rows
+                returning {
+                  name
+                  username
+                  email
+                }
+              }
+            }
+          `,
+          variables: {
+            password: this.password,
+            username: this.username,
+          },
+        });
+        localStorage.setItem("loginToken", this.username);
+        localStorage.setItem("token", this.username);
+        router.push("/map");
+      } catch (err) {
+        console.error(err);
+      }
+    },
+  },
+  computed: {
+    ...mapState(["currUser"]),
   },
 };
 </script>
@@ -46,6 +138,8 @@ export default {
   padding: 10rem 10rem;
   box-shadow: 15px 15px 1rem #023047a8;
   .header {
+    display: flex;
+    justify-content: space-between;
     h1 {
       margin-top: -5rem;
     }
@@ -55,6 +149,7 @@ export default {
     padding: 15px 0 0;
     margin-top: 10px;
     width: 50%;
+    height: 100%;
     .inputField {
       height: 2rem;
       margin-block-end: 2rem;
@@ -95,7 +190,7 @@ export default {
         border-image-slice: 5;
       }
     }
-    #emailInput:focus ~ #emailLabel {
+    #userNameInput:focus ~ #emailLabel {
       position: absolute;
       top: 0;
       display: block;

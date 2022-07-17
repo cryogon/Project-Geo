@@ -4,11 +4,10 @@
 <script>
 import LoginForm from "@/components/LoginForm.vue";
 export default {
-  methods: {
-    doLogin() {
-      this.$store.dispatch("login");
-    },
-  },
+  // methods: {
+  //   doLogin() {
+  //     this.$store.dispatch("login");
+  // },
   components: {
     LoginForm,
   },
