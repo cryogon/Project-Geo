@@ -14,8 +14,8 @@
             class="path"
             @click="
               () => {
-                this.locations = path.path.path;
-                this.pathLocation = path.path.path[0];
+                this.locations = path.path.latLng;
+                this.pathLocation = path.path.latLng[0];
                 this.zoom = 18;
               }
             "
@@ -172,7 +172,10 @@ export default {
                 }
               }
             `,
-            variables: { name: this.pathName, path: { path: this.locations } },
+            variables: {
+              name: this.pathName,
+              path: { latLng: this.locations },
+            },
           });
           console.log(data);
           //Reset Inputs

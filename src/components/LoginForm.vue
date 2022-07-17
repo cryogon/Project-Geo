@@ -2,7 +2,7 @@
   <div class="card">
     <div class="header">
       <h1 @click="inLoginForm = true">LOGIN</h1>
-      <h1 @click="inLoginForm = false">Signup</h1>
+      <h1 @click="inLoginForm = false">SIGNUP</h1>
     </div>
     <form autocomplete="off" v-if="inLoginForm">
       <input
@@ -23,49 +23,33 @@
         v-model="password"
       />
       <label for="password" class="inputLabel" id="passwordLabel"
-        >Password
+        >password
       </label>
       <button @click.prevent="doLogin">Login</button>
     </form>
 
     <form autocomplete="off" v-if="!inLoginForm">
       <input
-        id="nameInput"
+        id="userNameInput"
         type="text"
-        class="inputFieldSignup"
-        name="name"
-        placeholder="Name"
-        v-model="name"
-      />
-      <input
-        id="usernameInput"
-        type="text"
-        class="inputFieldSignup"
+        class="inputField"
         name="username"
         placeholder="username"
         v-model="username"
-      />
-      <input
-        id="emailInput"
-        type="email"
-        class="inputFieldSignup"
-        name="email"
-        placeholder="Email"
-        v-model="email"
       />
       <label for="email" class="inputLabel" id="emailLabel">username</label>
       <input
         type="password"
         name="password"
         id="passwordInput"
-        class="inputFieldSignup"
+        class="inputField"
         placeholder="Password"
         v-model="password"
       />
-      <label for="password" class="inputLabelSignup" id="passwordLabel"
-        >Password
+      <label for="password" class="inputLabel" id="passwordLabel"
+        >password
       </label>
-      <button @click.prevent="doSignup">Login</button>
+      <button @click.prevent="doSignup">Signup</button>
     </form>
   </div>
 </template>
@@ -77,10 +61,8 @@ import router from "@/router";
 export default {
   data() {
     return {
-      name: "",
       username: "",
       password: "",
-      email: "",
       inLoginForm: true,
     };
   },
@@ -97,7 +79,6 @@ export default {
           }
         `,
       });
-      console.log(data.data.users[0].username);
       try {
         if (
           data.data.users[0].username === this.username &&
@@ -109,26 +90,16 @@ export default {
         alert("Email or Password is wrong");
       }
     },
-    async doSignup() {
-      if (!this.name && !this.email && !this.username && !this.password) {
+    doSignup() {
+      if (!this.username && !this.password) {
         return alert("Fill all the details before signup");
       }
       try {
-        let data = await this.$apollo.mutate({
+        this.$apollo.mutate({
           mutation: gql`
-            mutation insertUsers(
-              $name: String!
-              $username: String!
-              $email: String!
-              $password: String!
-            ) {
+            mutation insertUsers($username: String!, $password: String!) {
               insert_users(
-                objects: {
-                  name: $name
-                  username: $username
-                  email: $email
-                  password: $password
-                }
+                objects: { username: $username, password: $password }
               ) {
                 affected_rows
                 returning {
@@ -140,13 +111,10 @@ export default {
             }
           `,
           variables: {
-            name: this.name,
-            email: this.email,
             password: this.password,
             username: this.username,
           },
         });
-        console.log(data);
         localStorage.setItem("loginToken", this.username);
         localStorage.setItem("token", this.username);
         router.push("/map");
