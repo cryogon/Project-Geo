@@ -2,14 +2,14 @@
   <div class="container">
     <nav>
       <h1 class="appName">Project Geo</h1>
-      <h2>{{ hello }}</h2>
-      <button v-if="visible" @click.prevent="doLogout" class="logout">
-        Logout
-      </button>
+      <div class="userDetails">
+        <span id="username">{{ username }}</span>
+        <button v-if="visible" @click.prevent="doLogout" class="logout">
+          Logout
+        </button>
+      </div>
     </nav>
-    <main class="mainView">
-      <router-view />
-    </main>
+    <router-view />
   </div>
 </template>
 <script>
@@ -18,7 +18,7 @@ export default {
   name: "MainComponents",
   data() {
     return {
-      hello: "",
+      username: localStorage.getItem("token"),
     };
   },
   created() {
@@ -47,39 +47,35 @@ body {
   overflow-x: hidden;
 }
 .container {
-  display: grid;
-  grid-template-columns: 1vw 99vw;
-  grid-template-rows: 7vh 93vh;
   width: 100%;
   height: 100%;
   nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    grid-column: 1/3;
-    padding: 30px;
+    padding-inline: 30px;
     text-align: right;
     .appName {
       text-transform: uppercase;
     }
-    .logout {
-      height: 2vw;
-      width: 3vw;
-      font-size: 1em;
-      border: solid 1px;
-      background-color: transparent;
-      transition: 0.2s;
-      border-image: linear-gradient(to bottom left, hotpink, rebeccapurple);
-      border-image-slice: 10;
-      &:hover {
-        box-shadow: 0 0 20px greenyellow;
+    .userDetails {
+      #username {
+        margin-inline: 1rem;
+      }
+      .logout {
+        height: 2vw;
+        width: 3vw;
+        font-size: 1em;
+        border: solid 1px;
+        background-color: transparent;
+        transition: 0.2s;
+        border-image: linear-gradient(to bottom left, hotpink, rebeccapurple);
+        border-image-slice: 10;
+        &:hover {
+          box-shadow: 0 0 20px greenyellow;
+        }
       }
     }
-  }
-  .mainView {
-    grid-column: 2 / span 3;
-    width: 100%;
-    height: 100%;
   }
 }
 </style>

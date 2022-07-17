@@ -13,7 +13,7 @@
         placeholder="username"
         v-model="username"
       />
-      <label for="email" class="inputLabel" id="emailLabel">Email</label>
+      <label for="email" class="inputLabel" id="emailLabel">username</label>
       <input
         type="password"
         name="password"
@@ -53,7 +53,7 @@
         placeholder="Email"
         v-model="email"
       />
-      <label for="email" class="inputLabel" id="emailLabel">Email</label>
+      <label for="email" class="inputLabel" id="emailLabel">username</label>
       <input
         type="password"
         name="password"
@@ -181,6 +181,7 @@ export default {
     padding: 15px 0 0;
     margin-top: 10px;
     width: 50%;
+    height: 100%;
     .inputField {
       height: 2rem;
       margin-block-end: 2rem;
