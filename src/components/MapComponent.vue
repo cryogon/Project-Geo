@@ -2,7 +2,7 @@
   <div class="home">
     <button @click="onCreateMode = true">createPath</button>
     <input v-if="onCreateMode" type="text" v-model="pathName" />
-    <button v-if="onCreateMode" @click="createPolyline">Done</button>
+    <button v-if="onCreateMode" @click="createPolyline">Create</button>
     <button v-if="onCreateMode" @click="cancel">Cancel</button>
     <span v-if="onCreateMode">Selected Path: {{ locations }}</span>
     <div v-if="!isLocAvailable">
@@ -25,6 +25,7 @@
       @zoom="zoomUpperBound"
       :options="{ zoomControl: false, maxZoom: 18 }"
       @click="getCurrLoc"
+      @ready="onLeafletReady"
     >
       <l-tile-layer
         name="OpenStreetMap"
@@ -64,6 +65,7 @@
   </div>
 </template>
 <script>
+import "leaflet";
 import {
   LMap,
   LTileLayer,
@@ -107,6 +109,9 @@ export default {
       if (this.zoom >= 18) {
         this.zoom = 18;
       }
+    },
+    async onLeafletReady() {
+      await this.$nextTick();
     },
     getCurrLoc(e) {
       if (this.onCreateMode === true) {

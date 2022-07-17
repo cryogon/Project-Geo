@@ -6,12 +6,12 @@
     </div>
     <form autocomplete="off" v-if="inLoginForm">
       <input
-        id="emailInput"
+        id="userNameInput"
         type="text"
         class="inputField"
-        name="email"
-        placeholder="Email"
-        v-model="loginEmail"
+        name="username"
+        placeholder="username"
+        v-model="username"
       />
       <label for="email" class="inputLabel" id="emailLabel">Email</label>
       <input
@@ -20,7 +20,7 @@
         id="passwordInput"
         class="inputField"
         placeholder="Password"
-        v-model="loginPassword"
+        v-model="password"
       />
       <label for="password" class="inputLabel" id="passwordLabel"
         >Password
@@ -73,6 +73,7 @@
 <script>
 import gql from "graphql-tag";
 import { mapState } from "vuex";
+import router from "@/router";
 export default {
   data() {
     return {
@@ -81,23 +82,32 @@ export default {
       password: "",
       email: "",
       inLoginForm: true,
-      loginEmail: ``,
-      loginPassword: ``,
     };
   },
   methods: {
     async doLogin() {
+      localStorage.setItem("token", this.username);
       let data = await this.$apollo.query({
         query: gql`
           query checkUsers {
             users {
-              email
+              username
               password
             }
           }
         `,
       });
-      console.log(data);
+      console.log(data.data.users[0].username);
+      try {
+        if (
+          data.data.users[0].username === this.username &&
+          data.data.users[0].password == this.password
+        ) {
+          this.$store.dispatch("login");
+        }
+      } catch (err) {
+        alert("Email or Password is wrong");
+      }
     },
     async doSignup() {
       if (!this.name && !this.email && !this.username && !this.password) {
@@ -138,6 +148,8 @@ export default {
         });
         console.log(data);
         localStorage.setItem("loginToken", this.username);
+        localStorage.setItem("token", this.username);
+        router.push("/map");
       } catch (err) {
         console.error(err);
       }
@@ -209,7 +221,7 @@ export default {
         border-image-slice: 5;
       }
     }
-    #emailInput:focus ~ #emailLabel {
+    #userNameInput:focus ~ #emailLabel {
       position: absolute;
       top: 0;
       display: block;
