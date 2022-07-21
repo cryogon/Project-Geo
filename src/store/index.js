@@ -6,6 +6,9 @@ export default createStore({
     token: "",
     visible: false,
     currUser: "",
+    onCreateMode: false,
+    pathLocation: [],
+    locations: [],
   },
   getters: {
     storeToken(state) {
@@ -19,6 +22,15 @@ export default createStore({
     },
     updateVisible(state, val) {
       state.visible = val;
+    },
+    setCreateMode(state, val) {
+      state.onCreateMode = val;
+    },
+    setLocations(state, val) {
+      state.locations = val;
+    },
+    setPathLoc(state, val) {
+      state.pathLocation = val;
     },
   },
   actions: {

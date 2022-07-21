@@ -1,10 +1,29 @@
 <template>
   <div class="card">
     <div class="header">
-      <h1 @click="inLoginForm = true">LOGIN</h1>
-      <h1 @click="inLoginForm = false">SIGNUP</h1>
+      <h1
+        @click="
+          () => {
+            inLoginForm = true;
+            error = false;
+          }
+        "
+      >
+        LOGIN
+      </h1>
+      <h1
+        @click="
+          () => {
+            inLoginForm = false;
+            error = false;
+          }
+        "
+      >
+        SIGNUP
+      </h1>
     </div>
     <form autocomplete="off" v-if="inLoginForm">
+      <h3 v-if="error" style="color: red">username or password is wrong</h3>
       <input
         id="userNameInput"
         type="text"
@@ -37,6 +56,7 @@
         placeholder="username"
         v-model="username"
       />
+      <h3 v-if="error" style="color: red">{{ errorText }}</h3>
       <label for="email" class="inputLabel" id="emailLabel">username</label>
       <input
         type="password"
@@ -45,6 +65,9 @@
         class="inputField"
         placeholder="Password"
         v-model="password"
+        minlength="8"
+        maxlength="16"
+        pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
       />
       <label for="password" class="inputLabel" id="passwordLabel"
         >password
@@ -55,8 +78,7 @@
 </template>
 
 <script>
-import gql from "graphql-tag";
-import { mapState } from "vuex";
+import { LOGIN_IN, SIGN_UP } from "@/graphql";
 import router from "@/router";
 export default {
   data() {
@@ -64,20 +86,15 @@ export default {
       username: "",
       password: "",
       inLoginForm: true,
+      error: false,
+      errorText: "",
     };
   },
   methods: {
     async doLogin() {
       localStorage.setItem("token", this.username);
       let data = await this.$apollo.query({
-        query: gql`
-          query checkUsers {
-            users {
-              username
-              password
-            }
-          }
-        `,
+        query: LOGIN_IN,
       });
       try {
         if (
@@ -87,7 +104,11 @@ export default {
           this.$store.dispatch("login");
         }
       } catch (err) {
-        alert("Email or Password is wrong");
+        console.log("Catch Section");
+        this.error = true;
+        setTimeout(() => {
+          this.error = false;
+        }, 2000);
       }
     },
     doSignup() {
@@ -96,35 +117,19 @@ export default {
       }
       try {
         this.$apollo.mutate({
-          mutation: gql`
-            mutation insertUsers($username: String!, $password: String!) {
-              insert_users(
-                objects: { username: $username, password: $password }
-              ) {
-                affected_rows
-                returning {
-                  name
-                  username
-                  email
-                }
-              }
-            }
-          `,
+          mutation: SIGN_UP,
           variables: {
-            password: this.password,
             username: this.username,
+            password: this.password,
           },
         });
         localStorage.setItem("loginToken", this.username);
         localStorage.setItem("token", this.username);
         router.push("/map");
       } catch (err) {
-        console.error(err);
+        console.log(err);
       }
     },
-  },
-  computed: {
-    ...mapState(["currUser"]),
   },
 };
 </script>
@@ -150,6 +155,11 @@ export default {
     margin-top: 10px;
     width: 50%;
     height: 100%;
+    input::invalid {
+      &::after {
+        content: "Wrong input";
+      }
+    }
     .inputField {
       height: 2rem;
       margin-block-end: 2rem;

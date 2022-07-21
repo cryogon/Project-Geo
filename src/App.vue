@@ -23,6 +23,8 @@ export default {
   },
   created() {
     this.$store.dispatch("loadToken");
+    this.$store.commit("setCreateMode", false);
+    this.$store.commit("setLocations", []);
   },
   methods: {
     doLogout() {
@@ -55,6 +57,7 @@ body {
     align-items: center;
     padding-inline: 30px;
     text-align: right;
+
     .appName {
       text-transform: uppercase;
     }
