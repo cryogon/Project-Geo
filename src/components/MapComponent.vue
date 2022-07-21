@@ -42,21 +42,23 @@
 
       <l-marker :lat-lng="currLocation">
         <l-tooltip> You </l-tooltip>
-        <l-popup>This is marker</l-popup>
+        <l-popup>This is your location</l-popup>
       </l-marker>
-      <l-marker :lat-lng="locations[0]">
-        <l-tooltip> Start </l-tooltip>
-        <l-popup>This is marker</l-popup>
-      </l-marker>
-      <l-marker :lat-lng="locations[locations.length - 1]">
-        <l-tooltip> End </l-tooltip>
-        <l-popup>This is marker</l-popup>
-      </l-marker>
+      <div class="marker" v-if="isPathMarkerVisible">
+        <l-marker :lat-lng="locations[0]">
+          <l-tooltip> Start </l-tooltip>
+          <l-popup>This is the start of the route</l-popup>
+        </l-marker>
+        <l-marker :lat-lng="locations[locations.length - 1]">
+          <l-tooltip> End </l-tooltip>
+          <l-popup>This is the end of the route</l-popup>
+        </l-marker>
+      </div>
       <l-polyline
         :name="pathName"
         class="testPoly"
         :lat-lngs="locations"
-        color="#000"
+        color="#229bb1"
       ></l-polyline>
     </l-map>
   </div>
@@ -74,7 +76,6 @@ import {
 } from "@vue-leaflet/vue-leaflet";
 import "leaflet/dist/leaflet.css";
 import { mapState } from "vuex";
-
 export default {
   data() {
     return {
@@ -104,11 +105,11 @@ export default {
     },
     getCurrLoc(e) {
       if (this.onCreateMode === true) {
-        console.log("Clicked");
         try {
           const { lat, lng } = e.latlng;
           // this.locations = [...this.locations, [lat, lng]];
           this.$store.commit("setLocations", [...this.locations, [lat, lng]]);
+          this.$store.commit("setMarkerVisibility", true);
         } catch (err) {
           console.warn(
             "It's working fine but there are some problems to be fixed" //Its a bug in vue/leaflet itself according to it's github page
@@ -118,6 +119,8 @@ export default {
     },
   },
   created() {
+    this.$store.commit("setMarkerVisibility", false);
+    this.$store.commit("setLocations", []);
     if (!("geolocation" in navigator)) {
       this.locErr = "GeoLocation is not available";
       this.isLocAvailable = false;
@@ -143,7 +146,13 @@ export default {
     );
   },
   computed: {
-    ...mapState(["pathName", "locations", "pathLocation", "onCreateMode"]),
+    ...mapState([
+      "pathName",
+      "locations",
+      "pathLocation",
+      "onCreateMode",
+      "isPathMarkerVisible",
+    ]),
   },
 };
 </script>

@@ -9,6 +9,7 @@ export default createStore({
     onCreateMode: false,
     pathLocation: [],
     locations: [],
+    isPathMarkerVisible: false,
   },
   getters: {
     storeToken(state) {
@@ -31,6 +32,9 @@ export default createStore({
     },
     setPathLoc(state, val) {
       state.pathLocation = val;
+    },
+    setMarkerVisibility(state, value) {
+      state.isPathMarkerVisible = value;
     },
   },
   actions: {

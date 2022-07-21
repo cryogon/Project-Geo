@@ -1,9 +1,11 @@
 <template>
   <div class="options">
     <button @click="setCreateModeTrue" v-if="!onCreateMode">createPath</button>
-    <input v-if="onCreateMode" type="text" v-model="pathName" />
-    <button v-if="onCreateMode" @click="createPolyline">Create</button>
-    <button v-if="onCreateMode" @click="cancel">Cancel</button>
+    <div class="pathInputBox">
+      <input v-if="onCreateMode" type="text" v-model="pathName" />
+      <button v-if="onCreateMode" @click="createPolyline">Create</button>
+      <button v-if="onCreateMode" @click="cancel">Cancel</button>
+    </div>
 
     <div class="listOfPaths">
       <ol>
@@ -22,6 +24,8 @@
 <script>
 import { GET_PATH, INSERT_PATH, SUBSCRIBE_PATH } from "@/graphql";
 import { mapState } from "vuex";
+import mitt from "mitt";
+const emitter = mitt();
 export default {
   apollo: {
     paths: {
@@ -38,15 +42,18 @@ export default {
     setPath(path) {
       this.$store.commit("setLocations", path.path.latLng);
       this.$store.commit("setPathLoc", path.path.latLng[1]);
+      this.$store.commit("setMarkerVisibility", true);
       this.zoom = 17;
     },
     setCreateModeTrue() {
       this.$store.commit("setCreateMode", true);
       this.$store.commit("setLocations", []);
+      this.$store.commit("setMarkerVisibility", false);
     },
     async createPolyline() {
       try {
         //Code
+        this.$store.commit("setMarkerVisibility", false);
         if (this.locations.length > 1) {
           let data = await this.$apollo.mutate({
             mutation: INSERT_PATH,
@@ -56,8 +63,8 @@ export default {
             },
           });
           console.log(data);
-          this.$apollo.subscribe({
-            query: SUBSCRIBE_PATH,
+          this.$apollo.queries.paths.subscribeToMore({
+            document: SUBSCRIBE_PATH,
           });
           //Reset Inputs
           this.pathName = "";
@@ -71,9 +78,11 @@ export default {
       }
     },
     cancel() {
+      emitter.emit("test");
       this.pathName = "";
       this.$store.commit("setCreateMode", false);
       this.$store.commit("setLocations", []);
+      this.$store.commit("setMarkerVisibility", false);
     },
   },
   computed: {
@@ -85,7 +94,9 @@ export default {
 .options {
   width: 15vw;
   height: inherit;
-
+  .pathInputBox {
+    display: grid;
+  }
   .path {
     list-style-position: inside;
     transition: 0.2s;
