@@ -17,7 +17,7 @@
       v-model:zoom="zoom"
       :center="pathLocation"
       @zoom="zoomUpperBound"
-      :options="{ zoomControl: false }"
+      :options="{ zoomControl: false, maxZoom: 18 }"
       @click="getCurrLoc"
     >
       <l-tile-layer
@@ -26,11 +26,6 @@
         zoom="18"
         layer-type="base"
       ></l-tile-layer>
-
-      <l-control-attribution
-        position="topright"
-        prefix="Prpject-Geo"
-      ></l-control-attribution>
 
       <l-control-zoom
         position="bottomright"
@@ -71,7 +66,6 @@ import {
   LTooltip,
   LPolyline,
   LControlZoom,
-  LControlAttribution,
   LPopup,
 } from "@vue-leaflet/vue-leaflet";
 import "leaflet/dist/leaflet.css";
@@ -79,7 +73,6 @@ import { mapState } from "vuex";
 export default {
   data() {
     return {
-      zoom: 2,
       geojson: null,
       currLocation: [31.995809, 77.450126],
       testLocation: [[31.995809, 77.450126]],
@@ -94,13 +87,12 @@ export default {
     LTooltip,
     LPolyline,
     LControlZoom,
-    LControlAttribution,
     LPopup,
   },
   methods: {
     zoomUpperBound() {
-      if (this.zoom >= 18) {
-        this.zoom = 18;
+      if (this.mapZoom >= 18) {
+        this.$store.commit("setZoom", 18);
       }
     },
     getCurrLoc(e) {
@@ -129,7 +121,7 @@ export default {
     this.gettingLocation = true;
     navigator.geolocation.getCurrentPosition(
       (pos) => {
-        this.zoom = 18;
+        this.$store.commit("setZoom", 18);
         this.currLocation = [pos.coords.latitude, pos.coords.longitude];
         this.$store.commit("setPathLoc", [
           pos.coords.latitude,
@@ -152,7 +144,16 @@ export default {
       "pathLocation",
       "onCreateMode",
       "isPathMarkerVisible",
+      "mapZoom",
     ]),
+    zoom: {
+      set(zoom) {
+        this.$store.commit("setZoom", zoom);
+      },
+      get() {
+        return this.mapZoom;
+      },
+    },
   },
 };
 </script>

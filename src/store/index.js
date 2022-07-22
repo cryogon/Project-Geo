@@ -10,6 +10,7 @@ export default createStore({
     pathLocation: [],
     locations: [],
     isPathMarkerVisible: false,
+    mapZoom: 12,
   },
   getters: {
     storeToken(state) {
@@ -20,6 +21,9 @@ export default createStore({
     updateToken(state, val) {
       state.token = val;
       localStorage.setItem("loginToken", state.token);
+    },
+    setZoom(state, zoomLevel) {
+      state.mapZoom = zoomLevel;
     },
     updateVisible(state, val) {
       state.visible = val;
