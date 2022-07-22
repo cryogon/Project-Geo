@@ -64,22 +64,18 @@ export default {
         //Code
         this.$store.commit("setMarkerVisibility", false);
         if (this.locations.length > 1) {
-          let data = await this.$apollo.mutate({
+          await this.$apollo.mutate({
             mutation: INSERT_PATH,
             variables: {
               name: this.pathName,
               path: { latLng: this.locations },
             },
           });
-          console.log(data);
-          this.$apollo.query({
-            query: GET_PATH,
-            context: this.paths,
-          });
           //Reset Inputs
           this.pathName = "";
           this.$store.commit("setCreateMode", false);
           this.$store.commit("setLocations", []);
+          this.$apollo.queries.paths.refetch();
         } else {
           alert("Please enter a valid path");
         }

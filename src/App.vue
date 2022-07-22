@@ -20,7 +20,7 @@ export default {
   name: "MainComponents",
   data() {
     return {
-      username: localStorage.getItem("token"),
+      username: localStorage.getItem("token").toUpperCase(),
     };
   },
   created() {
