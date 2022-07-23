@@ -18,7 +18,7 @@
       >
     </div>
 
-    <div class="listOfPaths">
+    <div class="listOfPaths" v-cloak>
       <ol>
         <li
           v-for="path in paths"
@@ -90,16 +90,23 @@ export default {
       this.$store.commit("setMarkerVisibility", false);
     },
   },
+  beforeMount() {
+    this.$apollo.queries.paths.refetch();
+  },
   computed: {
     ...mapState(["locations", "onCreateMode"]),
   },
 };
 </script>
 <style lang="scss">
+[v-cloak] {
+  display: none;
+}
 .options {
   width: 15vw;
   height: inherit;
   overflow-y: auto;
+
   #createPath {
     margin-inline-start: 2rem;
     background: linear-gradient(125deg, hotpink, rgb(42, 175, 216));

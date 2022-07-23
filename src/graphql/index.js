@@ -9,7 +9,7 @@ export const SIGN_UP = gql`
     }
   }
 `;
-export const LOGIN_IN = gql`
+export const LOGIN_USER = gql`
   query checkUsers {
     users {
       username
@@ -30,14 +30,6 @@ export const INSERT_PATH = gql`
 `;
 export const GET_PATH = gql`
   query myQuery {
-    paths {
-      path_name
-      path
-    }
-  }
-`;
-export const SUBSCRIBE_PATH = gql`
-  query mySub {
     paths {
       path_name
       path

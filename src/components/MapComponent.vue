@@ -111,8 +111,6 @@ export default {
     },
   },
   created() {
-    this.$store.commit("setMarkerVisibility", false);
-    this.$store.commit("setLocations", []);
     if (!("geolocation" in navigator)) {
       this.locErr = "GeoLocation is not available";
       this.isLocAvailable = false;

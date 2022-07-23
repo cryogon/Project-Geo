@@ -2,12 +2,10 @@
   <div class="container">
     <nav>
       <h1 class="appName">Project Geo</h1>
-      <div class="userDetails">
+      <div v-if="visible" class="userDetails">
         <span id="username">{{ username }}</span>
         <div class="userOptions">
-          <button v-if="visible" @click.prevent="doLogout" class="logout">
-            Logout
-          </button>
+          <button @click.prevent="doLogout" class="logout">Logout</button>
         </div>
       </div>
     </nav>
@@ -20,13 +18,14 @@ export default {
   name: "MainComponents",
   data() {
     return {
-      username: localStorage.getItem("token").toUpperCase(),
+      username: localStorage.getItem("loginToken") || "",
     };
+  },
+  updated() {
+    this.username = localStorage.getItem("loginToken");
   },
   created() {
     this.$store.dispatch("loadToken");
-    this.$store.commit("setCreateMode", false);
-    this.$store.commit("setLocations", []);
   },
   methods: {
     doLogout() {

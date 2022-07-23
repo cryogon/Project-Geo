@@ -43,8 +43,6 @@ export default createStore({
   },
   actions: {
     login(context) {
-      context.commit("updateToken", localStorage.getItem("token"));
-      console.log(this.state.currUser);
       router.push("/map");
       context.commit("updateVisible", true);
     },
