@@ -5,19 +5,23 @@ import store from "./store";
 import "leaflet/dist/leaflet.css";
 import { apolloProvider } from "./vue-apollo";
 import { createAuth0 } from "@auth0/auth0-vue";
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { faUser, faPowerOff } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import { domain, clientId as client_id, audience } from "../auth_config.json";
+library.add(faUser, faPowerOff);
 createApp(App)
-  .component("font-awesome-icon", FontAwesomeIcon)
   .use(store)
   .use(router)
   .use(apolloProvider)
   .use(
     createAuth0({
-      domain: "project-geo.us.auth0.com",
-      client_id: "XzpFDog1u2Ld7D8oWOj6ORfQT76139wF",
+      domain,
+      client_id,
       redirect_uri: window.location.origin,
-      audience: "https://tidy-seasnail-24.hasura.app/v1/graphql",
-      useRefreshTokens: true,
+      audience,
+      cacheLocation: "localstorage",
     })
   )
+  .component("font-awesome-icon", FontAwesomeIcon)
   .mount("#app");

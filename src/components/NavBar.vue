@@ -7,15 +7,15 @@
       <li v-if="!isAuth" class="list">
         <login-button />
       </li>
-      <li v-if="isAuth" class="list user">
+      <li v-if="isAuth" class="list user" @load="profile">
         <span @click="showDropDown" class="userInfo">
           <img
-            :src="profilePic"
+            :src="user.picture"
             alt="User's Profile Pic"
             width="50"
             class="userProfilePic"
           />
-          <h6 class="name">{{ name }}</h6>
+          <h5 class="name">{{ user.name }}</h5>
         </span>
         <div class="dropDownMenu hidden">
           <h4 @click="profile" class="profileOption">Profile</h4>
@@ -33,9 +33,8 @@ export default {
   },
   data() {
     return {
-      name: this.$auth0.user.value.name,
+      user: this.$auth0.user || null,
       isAuth: this.$auth0.isAuthenticated,
-      profilePic: this.$auth0.user.value.picture,
     };
   },
   methods: {
@@ -71,9 +70,9 @@ nav {
     .list {
       .userInfo {
         display: flex;
-        flex-direction: column;
         justify-content: center;
         align-items: center;
+        column-gap: 1rem;
       }
       .userProfilePic {
         border-radius: 5rem;

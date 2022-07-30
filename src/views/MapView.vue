@@ -8,6 +8,7 @@
 import MapComponent from "@/components/MapComponent.vue";
 import MapOptionComponent from "@/components/MapOptionComponent.vue";
 export default {
+  name: "MapView",
   components: {
     MapComponent,
     MapOptionComponent,

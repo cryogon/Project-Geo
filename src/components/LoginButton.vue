@@ -19,7 +19,7 @@ export default {
       try {
         await this.$auth0.loginWithPopup();
         await this.$nextTick();
-        this.$emit("login");
+
         this.token = await this.$auth0.getAccessTokenSilently();
         this.token && this.$store.commit("updateToken", this.token);
         this.token && this.$router.push("/map");
