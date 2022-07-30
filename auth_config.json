@@ -1,0 +1,5 @@
+{
+    "domain": "project-geo.us.auth0.com",
+    "clientId": "XzpFDog1u2Ld7D8oWOj6ORfQT76139wF",
+    "audience":"https://tidy-seasnail-24.hasura.app/v1/graphql"
+  } 
