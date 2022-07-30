@@ -1,6 +1,8 @@
 import { createRouter, createWebHashHistory } from "vue-router";
 import HomeView from "../views/HomeView.vue";
 import store from "../store";
+// import { createAuthGuard } from "@auth0/auth0-vue";
+// import App from "vue";
 const routes = [
   {
     path: "/",
@@ -11,6 +13,15 @@ const routes = [
     path: "/map",
     name: "map",
     component: () => import("../views/MapView.vue"),
+    // beforeEnter: createAuthGuard(App),
+    meta: {
+      loginRequired: true,
+    },
+  },
+  {
+    path: "/profile",
+    name: "profile",
+    component: () => import("@/components/ProfilePage.vue"),
     meta: {
       loginRequired: true,
     },

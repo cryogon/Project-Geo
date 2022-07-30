@@ -4,7 +4,6 @@ import router from "@/router";
 export default createStore({
   state: {
     token: "",
-    visible: false,
     currUser: "",
     onCreateMode: false,
     pathLocation: [],
@@ -20,13 +19,10 @@ export default createStore({
   mutations: {
     updateToken(state, val) {
       state.token = val;
-      localStorage.setItem("loginToken", state.token);
+      localStorage.setItem("apollo-token", state.token);
     },
     setZoom(state, zoomLevel) {
       state.mapZoom = zoomLevel;
-    },
-    updateVisible(state, val) {
-      state.visible = val;
     },
     setCreateMode(state, val) {
       state.onCreateMode = val;
@@ -42,18 +38,15 @@ export default createStore({
     },
   },
   actions: {
-    login(context) {
+    login() {
       router.push("/map");
-      context.commit("updateVisible", true);
     },
     logout(context) {
       context.commit("updateToken", "");
       router.push("/");
-      context.commit("updateVisible", false);
     },
     loadToken(context) {
-      const newToken = localStorage.getItem("loginToken");
-      newToken && context.commit("updateVisible", true);
+      const newToken = localStorage.getItem("apollo-token");
       newToken && context.commit("updateToken", newToken);
     },
   },

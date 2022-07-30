@@ -8,13 +8,13 @@ import {
 import { createApolloProvider } from "@vue/apollo-option";
 
 function getHeaders() {
-  const header = {
-    "x-hasura-admin-secret":
-      "NVs51OIy1kNqQiVO6zZK7ye3VGknsNWiPBK9tn4Aqb3uwgvn3uOXXDuJNG8kJ6m9",
-    "x-hasura-role": "user",
-    "x-hasura-user-name": localStorage.getItem("loginToken"),
-  };
-  return header;
+  const token = localStorage.getItem("apollo-token");
+  if (token) {
+    return {
+      Authorization: "Bearer " + token,
+    };
+  }
+  return { Authorization: "" };
 }
 const authMiddleware = new ApolloLink((operation, forward) => {
   operation.setContext({

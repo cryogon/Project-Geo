@@ -1,10 +1,10 @@
 import gql from "graphql-tag";
 export const SIGN_UP = gql`
-  mutation insertUsers($username: String!, $password: String!) {
-    insert_users(objects: { username: $username, password: $password }) {
+  mutation insertUsers($name: String!, $email: String!, $password: String!) {
+    insert_users(objects: { name: $name, email: $email, password: $password }) {
       affected_rows
       returning {
-        username
+        email
       }
     }
   }
@@ -12,7 +12,7 @@ export const SIGN_UP = gql`
 export const LOGIN_USER = gql`
   query checkUsers {
     users {
-      username
+      email
       password
     }
   }
