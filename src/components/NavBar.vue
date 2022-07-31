@@ -7,8 +7,8 @@
       <li v-if="!isAuth" class="list">
         <login-button />
       </li>
-      <li v-if="isAuth" class="list user" @load="profile">
-        <span @click="showDropDown" class="userInfo">
+      <li v-if="isAuth" class="list user">
+        <span class="userInfo">
           <img
             :src="user.picture"
             alt="User's Profile Pic"
@@ -17,7 +17,7 @@
           />
           <h5 class="name">{{ user.name }}</h5>
         </span>
-        <div class="dropDownMenu hidden">
+        <div class="dropDownMenu">
           <h4 @click="profile" class="profileOption">Profile</h4>
           <h4 @click="logout" class="logoutOption">Logout</h4>
         </div>
@@ -42,9 +42,6 @@ export default {
       this.$auth0.logout({ returnTo: window.location.origin });
       localStorage.removeItem("apollo-token");
     },
-    showDropDown() {
-      document.querySelector(".dropDownMenu").classList.toggle("hidden");
-    },
     profile() {
       this.$router.push("/profile");
     },
@@ -62,6 +59,7 @@ nav {
     text-align: right;
     position: sticky;
     top: 0;
+    height: 4rem;
     z-index: 999;
     list-style-type: none;
     .user {
@@ -73,20 +71,32 @@ nav {
         justify-content: center;
         align-items: center;
         column-gap: 1rem;
-      }
-      .userProfilePic {
-        border-radius: 5rem;
-      }
-      .hidden {
-        display: none;
+        .userProfilePic {
+          border-radius: 5rem;
+        }
+        &:hover ~ .dropDownMenu {
+          display: block;
+        }
       }
       .dropDownMenu {
         position: absolute;
+        display: none;
+        background: white;
         right: 0;
         padding-inline: 1em;
         cursor: pointer;
         text-align: center;
-        background: white;
+        &:hover {
+          display: block;
+        }
+        .profileOption,
+        .logoutOption {
+          padding: 0.5rem 1rem;
+          border-radius: 10px;
+          &:hover {
+            background: wheat;
+          }
+        }
       }
     }
   }

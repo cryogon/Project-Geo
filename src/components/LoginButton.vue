@@ -5,7 +5,6 @@
 </template>
 <script>
 export default {
-  emits: ["login"],
   data() {
     return {
       isAuth: this.$auth0.isAuthenticated,
@@ -19,7 +18,6 @@ export default {
       try {
         await this.$auth0.loginWithPopup();
         await this.$nextTick();
-
         this.token = await this.$auth0.getAccessTokenSilently();
         this.token && this.$store.commit("updateToken", this.token);
         this.token && this.$router.push("/map");
@@ -39,7 +37,7 @@ export default {
   border-radius: 2rem;
   &:hover {
     background: linear-gradient(rgb(172, 172, 46), yellow);
-    box-shadow: 4px 4px 20px rgb(172, 172, 46);
+    box-shadow: 4px 4px 10px rgb(172, 172, 46);
   }
 }
 </style>

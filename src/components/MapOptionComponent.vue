@@ -61,7 +61,6 @@ export default {
     },
     async createPolyline() {
       try {
-        //Code
         this.$store.commit("setMarkerVisibility", false);
         if (this.locations.length > 1) {
           await this.$apollo.mutate({
@@ -71,7 +70,6 @@ export default {
               path: { latLng: this.locations },
             },
           });
-          //Reset Inputs
           this.pathName = "";
           this.$store.commit("setCreateMode", false);
           this.$store.commit("setLocations", []);

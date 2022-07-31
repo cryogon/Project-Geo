@@ -1,5 +1,4 @@
 import { createStore } from "vuex";
-import router from "@/router";
 export default createStore({
   state: {
     token: "",
@@ -37,13 +36,6 @@ export default createStore({
     },
   },
   actions: {
-    login() {
-      router.push("/map");
-    },
-    logout(context) {
-      context.commit("updateToken", "");
-      router.push("/");
-    },
     loadToken(context) {
       const newToken = localStorage.getItem("apollo-token");
       newToken && context.commit("updateToken", newToken);
