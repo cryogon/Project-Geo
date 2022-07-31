@@ -36,3 +36,10 @@ export const GET_PATH = gql`
     }
   }
 `;
+export const UPDATE_PATH = gql`
+  mutation MyMutation($path: String!) {
+    update_paths(where: { path_name: { _eq: $path } }) {
+      affected_rows
+    }
+  }
+`;

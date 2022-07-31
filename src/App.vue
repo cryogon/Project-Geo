@@ -10,6 +10,9 @@ export default {
   components: { NavBar },
   name: "MainComponents",
   created() {
+    if (!this.$auth0.isAuthenticated) {
+      return localStorage.removeItem("apollo-token");
+    }
     this.$store.dispatch("loadToken");
   },
 };

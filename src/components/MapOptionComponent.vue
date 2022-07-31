@@ -104,7 +104,7 @@ export default {
   width: 15vw;
   height: inherit;
   overflow-y: auto;
-
+  overflow-x: hidden;
   #createPath {
     margin-inline-start: 2rem;
     background: linear-gradient(125deg, hotpink, rgb(42, 175, 216));
@@ -145,21 +145,19 @@ export default {
       }
     }
   }
-  .listOfPaths {
-    display: flex;
-    flex-wrap: wrap;
-    .path {
-      list-style-position: inside;
-      transition: 0.2s;
-      margin-block: 0.5rem;
-      padding: 1rem;
-      cursor: pointer;
-      &:hover {
-        background-color: #c2c0c0;
-      }
-      &::marker {
-        color: hotpink;
-      }
+
+  .path {
+    word-wrap: break-word;
+    list-style-position: inside;
+    transition: 0.2s;
+    margin-block: 0.5rem;
+    padding: 1rem;
+    cursor: pointer;
+    &:hover {
+      background-color: #c2c0c0;
+    }
+    &::marker {
+      color: hotpink;
     }
   }
 }

@@ -29,7 +29,7 @@
         layer-type="base"
       ></l-tile-layer>
 
-      <l-control-zoom position="topright" zoom-in-text="+" zoom-out-text="−" />
+      <l-control position="topleft"><button>Test</button></l-control>
 
       <l-marker :lat-lng="currLocation">
         <l-tooltip> You </l-tooltip>
@@ -61,12 +61,22 @@ import {
   LMarker,
   LTooltip,
   LPolyline,
-  LControlZoom,
   LPopup,
+  LControl,
 } from "@vue-leaflet/vue-leaflet";
 import "leaflet/dist/leaflet.css";
 import { mapState } from "vuex";
 export default {
+  components: {
+    LMap,
+    LTileLayer,
+    LMarker,
+    LTooltip,
+    LPolyline,
+
+    LPopup,
+    LControl,
+  },
   data() {
     return {
       geojson: null,
@@ -79,21 +89,11 @@ export default {
       zoomAnim: true,
     };
   },
-  components: {
-    LMap,
-    LTileLayer,
-    LMarker,
-    LTooltip,
-    LPolyline,
-    LControlZoom,
-    LPopup,
-  },
   methods: {
     getCurrLoc(e) {
       if (this.onCreateMode === true) {
         try {
           const { lat, lng } = e.latlng;
-          // this.locations = [...this.locations, [lat, lng]];
           this.$store.commit("setLocations", [...this.locations, [lat, lng]]);
           this.$store.commit("setMarkerVisibility", true);
         } catch (err) {

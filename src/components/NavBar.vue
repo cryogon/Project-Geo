@@ -4,10 +4,10 @@
       <li class="list">
         <h1 class="appName">Project Geo</h1>
       </li>
-      <li v-if="!isAuth" class="list">
+      <li class="list">
         <login-button />
       </li>
-      <li v-if="isAuth" class="list user">
+      <li v-if="isAuth && user" class="list user">
         <span class="userInfo">
           <img
             :src="user.picture"
@@ -72,7 +72,6 @@ nav {
     text-align: right;
     position: sticky;
     top: 0;
-    height: 4rem;
     z-index: 999;
     list-style-type: none;
     .user {
@@ -87,7 +86,8 @@ nav {
         .userProfilePic {
           border-radius: 5rem;
         }
-        &:hover ~ .dropDownMenu {
+        &:hover ~ .dropDownMenu,
+        &:focus ~ .dropDownMenu {
           display: flex;
           flex-direction: column;
         }
@@ -100,7 +100,8 @@ nav {
         padding-inline: 1em;
         cursor: pointer;
         text-align: center;
-        &:hover {
+        &:hover,
+        &:focus {
           display: flex;
           flex-direction: column;
         }
@@ -109,7 +110,8 @@ nav {
           border-radius: 10px;
           font-size: 18px;
           font-weight: 600;
-          &:hover {
+          &:hover,
+          &:focus {
             background: wheat;
           }
         }

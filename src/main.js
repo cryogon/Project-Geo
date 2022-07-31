@@ -11,10 +11,11 @@ import {
   faUserAstronaut,
   faRightToBracket,
   faMap,
+  faPencil,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { domain, clientId as client_id, audience } from "../auth_config.json";
-library.add(faUser, faRightToBracket, faUserAstronaut, faMap);
+library.add(faUser, faRightToBracket, faUserAstronaut, faMap, faPencil);
 createApp(App)
   .use(store)
   .use(router)
