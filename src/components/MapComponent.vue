@@ -6,7 +6,7 @@
     <div v-if="gettingLocation">
       <img
         id="loadingAnimation"
-        src="../../public/loading.gif"
+        src="../../public/loading.svg"
         alt="Loading Animation"
       />
     </div>
@@ -16,8 +16,10 @@
       v-model="zoom"
       v-model:zoom="zoom"
       :center="pathLocation"
-      @zoom="zoomUpperBound"
-      :options="{ zoomControl: false, maxZoom: 18 }"
+      :maxZoom="maxZoom"
+      :minZoom="minZoom"
+      :zoomAnimation="zoomAnim"
+      :options="{ zoomControl: false }"
       @click="getCurrLoc"
     >
       <l-tile-layer
@@ -27,13 +29,7 @@
         layer-type="base"
       ></l-tile-layer>
 
-      <l-control-zoom
-        position="bottomright"
-        zoom-in-text="+"
-        zoom-out-text="−"
-        maxZoom="18"
-        @zoom="zoomUpperBound"
-      />
+      <l-control-zoom position="topright" zoom-in-text="+" zoom-out-text="−" />
 
       <l-marker :lat-lng="currLocation">
         <l-tooltip> You </l-tooltip>
@@ -78,6 +74,9 @@ export default {
       testLocation: [[31.995809, 77.450126]],
       locErr: null,
       isLocAvailable: false,
+      maxZoom: 18,
+      minZoom: 4,
+      zoomAnim: true,
     };
   },
   components: {
@@ -90,11 +89,6 @@ export default {
     LPopup,
   },
   methods: {
-    zoomUpperBound() {
-      if (this.mapZoom >= 18) {
-        this.$store.commit("setZoom", 18);
-      }
-    },
     getCurrLoc(e) {
       if (this.onCreateMode === true) {
         try {
@@ -135,6 +129,7 @@ export default {
       }
     );
   },
+
   computed: {
     ...mapState([
       "pathName",

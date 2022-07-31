@@ -23,7 +23,7 @@ export default {
   box-sizing: border-box;
 }
 body {
-  background-color: #fff;
+  background: #fff;
   width: 100vw;
   height: 100vh;
   overflow-x: hidden;

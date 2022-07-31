@@ -22,7 +22,7 @@
             <font-awesome-icon icon="user-astronaut" class="icon" />
             Profile</span
           >
-          <span @click="map" class="profileOption">
+          <span @click="map" class="mapOption">
             <font-awesome-icon icon="map" class="icon" />
             Map</span
           >
@@ -104,8 +104,7 @@ nav {
           display: flex;
           flex-direction: column;
         }
-        .profileOption,
-        .logoutOption {
+        span {
           padding: 0.5rem 0.6rem;
           border-radius: 10px;
           font-size: 18px;

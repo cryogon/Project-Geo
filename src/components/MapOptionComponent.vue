@@ -145,17 +145,21 @@ export default {
       }
     }
   }
-  .path {
-    list-style-position: inside;
-    transition: 0.2s;
-    margin-block: 0.5rem;
-    padding: 1rem;
-    cursor: pointer;
-    &:hover {
-      background-color: #c2c0c0;
-    }
-    &::marker {
-      color: hotpink;
+  .listOfPaths {
+    display: flex;
+    flex-wrap: wrap;
+    .path {
+      list-style-position: inside;
+      transition: 0.2s;
+      margin-block: 0.5rem;
+      padding: 1rem;
+      cursor: pointer;
+      &:hover {
+        background-color: #c2c0c0;
+      }
+      &::marker {
+        color: hotpink;
+      }
     }
   }
 }
