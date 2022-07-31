@@ -18,8 +18,18 @@
           <h5 class="name">{{ user.name }}</h5>
         </span>
         <div class="dropDownMenu">
-          <h4 @click="profile" class="profileOption">Profile</h4>
-          <h4 @click="logout" class="logoutOption">Logout</h4>
+          <span @click="profile" class="profileOption">
+            <font-awesome-icon icon="user-astronaut" class="icon" />
+            Profile</span
+          >
+          <span @click="map" class="profileOption">
+            <font-awesome-icon icon="map" class="icon" />
+            Map</span
+          >
+          <span @click="logout" class="logoutOption">
+            <font-awesome-icon icon="right-to-bracket" class="icon" />
+            Logout</span
+          >
         </div>
       </li>
     </ul>
@@ -44,6 +54,9 @@ export default {
     },
     profile() {
       this.$router.push("/profile");
+    },
+    map() {
+      this.$router.push("/map");
     },
   },
 };
@@ -75,7 +88,8 @@ nav {
           border-radius: 5rem;
         }
         &:hover ~ .dropDownMenu {
-          display: block;
+          display: flex;
+          flex-direction: column;
         }
       }
       .dropDownMenu {
@@ -87,15 +101,24 @@ nav {
         cursor: pointer;
         text-align: center;
         &:hover {
-          display: block;
+          display: flex;
+          flex-direction: column;
         }
         .profileOption,
         .logoutOption {
-          padding: 0.5rem 1rem;
+          padding: 0.5rem 0.6rem;
           border-radius: 10px;
+          font-size: 18px;
+          font-weight: 600;
           &:hover {
             background: wheat;
           }
+        }
+        .icon {
+          margin-inline-end: 0.1rem;
+        }
+        .active {
+          background: wheat;
         }
       }
     }
