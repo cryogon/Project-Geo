@@ -13,7 +13,6 @@ export default {
       localStorage.removeItem("apollo-token");
       return;
     }
-    console.log(this.$auth0.isAuthenticated);
     this.$store.dispatch("loadToken");
   },
 };

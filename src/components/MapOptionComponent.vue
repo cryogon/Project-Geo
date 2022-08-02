@@ -50,7 +50,7 @@ export default {
   methods: {
     setPath(path) {
       this.$store.commit("setLocations", path.path.latLng);
-      this.$store.commit("setPathLoc", path.path.latLng[1]);
+      this.$store.commit("setPathLoc", path.path.latLng[0]);
       this.$store.commit("setMarkerVisibility", true);
       this.$store.commit("setZoom", 16);
     },
