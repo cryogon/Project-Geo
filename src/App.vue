@@ -30,6 +30,9 @@ $secondaryBackgroundColor: rgb(219, 198, 198);
   box-sizing: border-box;
 }
 body {
+  button {
+    cursor: pointer;
+  }
   background: linear-gradient(
     $primaryBackgroundColor,
     $secondaryBackgroundColor

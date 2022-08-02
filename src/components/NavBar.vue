@@ -134,7 +134,7 @@ nav {
   }
   .appName {
     text-transform: uppercase;
-    background: -moz-repeating-linear-gradient(45deg, #69c3ed, yellowgreen);
+    background: linear-gradient(45deg, #69c3ed, yellowgreen);
     background-clip: text;
     color: transparent;
   }

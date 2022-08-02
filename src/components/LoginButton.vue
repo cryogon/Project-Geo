@@ -41,7 +41,9 @@ $btn-width: 6rem;
   perspective: 10px;
 
   &:hover {
-    box-shadow: inset $btn-width 0 0 0 red;
+    box-shadow: inset $btn-width 0 0 0 rgb(199, 106, 106);
+    color: white;
+    font-size: 16px;
   }
 }
 </style>
