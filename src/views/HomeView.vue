@@ -1,15 +1,11 @@
 <template>
-  <LoginForm />
+  <HomeView />
 </template>
 <script>
-import LoginForm from "@/components/LoginForm.vue";
+import HomeView from "@/components/HomeComponent.vue";
 export default {
-  // methods: {
-  //   doLogin() {
-  //     this.$store.dispatch("login");
-  // },
   components: {
-    LoginForm,
+    HomeView,
   },
 };
 </script>

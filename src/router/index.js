@@ -1,6 +1,7 @@
 import { createRouter, createWebHashHistory } from "vue-router";
 import HomeView from "../views/HomeView.vue";
 import store from "../store";
+
 const routes = [
   {
     path: "/",
@@ -15,6 +16,14 @@ const routes = [
       loginRequired: true,
     },
   },
+  {
+    path: "/profile",
+    name: "profile",
+    component: () => import("@/views/ProfilePage.vue"),
+    meta: {
+      loginRequired: true,
+    },
+  },
 ];
 
 const router = createRouter({
@@ -25,7 +34,7 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
   const tokenPresent = store.getters.storeToken;
   if (to.meta?.loginRequired && !tokenPresent) {
-    next({ name: "home" });
+    next({ name: "login" });
   } else if (!to.meta?.loginRequired && tokenPresent) {
     next({ name: "map" });
   } else {

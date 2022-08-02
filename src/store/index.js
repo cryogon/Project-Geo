@@ -1,11 +1,13 @@
 import { createStore } from "vuex";
-import router from "@/router";
-
 export default createStore({
   state: {
     token: "",
-    visible: false,
     currUser: "",
+    onCreateMode: false,
+    pathLocation: [],
+    locations: [],
+    isPathMarkerVisible: false,
+    mapZoom: 12,
   },
   getters: {
     storeToken(state) {
@@ -15,27 +17,27 @@ export default createStore({
   mutations: {
     updateToken(state, val) {
       state.token = val;
-      localStorage.setItem("loginToken", state.token);
+      localStorage.setItem("apollo-token", state.token);
     },
-    updateVisible(state, val) {
-      state.visible = val;
+    setZoom(state, zoomLevel) {
+      state.mapZoom = zoomLevel;
+    },
+    setCreateMode(state, val) {
+      state.onCreateMode = val;
+    },
+    setLocations(state, val) {
+      state.locations = val;
+    },
+    setPathLoc(state, val) {
+      state.pathLocation = val;
+    },
+    setMarkerVisibility(state, value) {
+      state.isPathMarkerVisible = value;
     },
   },
   actions: {
-    login(context) {
-      context.commit("updateToken", localStorage.getItem("token"));
-      console.log(this.state.currUser);
-      router.push("/map");
-      context.commit("updateVisible", true);
-    },
-    logout(context) {
-      context.commit("updateToken", "");
-      router.push("/");
-      context.commit("updateVisible", false);
-    },
     loadToken(context) {
-      const newToken = localStorage.getItem("loginToken");
-      newToken && context.commit("updateVisible", true);
+      const newToken = localStorage.getItem("apollo-token");
       newToken && context.commit("updateToken", newToken);
     },
   },
