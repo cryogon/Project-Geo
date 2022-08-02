@@ -1,22 +1,5 @@
 import gql from "graphql-tag";
-export const SIGN_UP = gql`
-  mutation insertUsers($name: String!, $email: String!, $password: String!) {
-    insert_users(objects: { name: $name, email: $email, password: $password }) {
-      affected_rows
-      returning {
-        email
-      }
-    }
-  }
-`;
-export const LOGIN_USER = gql`
-  query checkUsers {
-    users {
-      email
-      password
-    }
-  }
-`;
+
 export const INSERT_PATH = gql`
   mutation setPath($name: String!, $path: jsonb!) {
     insert_paths(objects: { path_name: $name, path: $path }) {
@@ -29,7 +12,7 @@ export const INSERT_PATH = gql`
   }
 `;
 export const GET_PATH = gql`
-  query myQuery {
+  query getPath {
     paths {
       path_name
       path
@@ -37,8 +20,11 @@ export const GET_PATH = gql`
   }
 `;
 export const UPDATE_PATH = gql`
-  mutation MyMutation($path: String!) {
-    update_paths(where: { path_name: { _eq: $path } }) {
+  mutation updatePath($oldName: String!, $newName: String!) {
+    update_paths(
+      where: { path_name: { _eq: $oldName } }
+      _set: { path_name: $newName }
+    ) {
       affected_rows
     }
   }

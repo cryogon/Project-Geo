@@ -130,6 +130,9 @@ export default {
       border-inline-start: 1px solid black;
       padding: 0.5rem;
     }
+    .listOfPaths {
+      height: inherit;
+    }
     span {
       font-size: smaller;
       grid-column: 1 / span 2;

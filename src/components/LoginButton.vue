@@ -29,15 +29,19 @@ export default {
 };
 </script>
 <style lang="scss">
+$btn-width: 6rem;
 .loginButton {
-  width: 8rem;
+  width: $btn-width;
   height: 3rem;
   background: transparent;
   border-style: solid;
-  border-radius: 2rem;
+  border-radius: 1rem;
+  transition: ease-out 0.3s;
+  outline: none;
+  perspective: 10px;
+
   &:hover {
-    background: linear-gradient(rgb(172, 172, 46), yellow);
-    box-shadow: 4px 4px 10px rgb(172, 172, 46);
+    box-shadow: inset $btn-width 0 0 0 red;
   }
 }
 </style>

@@ -16,35 +16,35 @@
       v-model="zoom"
       v-model:zoom="zoom"
       :center="pathLocation"
-      :maxZoom="maxZoom"
-      :minZoom="minZoom"
-      :zoomAnimation="zoomAnim"
+      :maxZoom="18"
+      :minZoom="4"
+      :zoomAnimation="true"
       :options="{ zoomControl: false }"
       @click="getCurrLoc"
     >
       <l-tile-layer
+        class="mapLayer"
         name="OpenStreetMap"
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        zoom="18"
         layer-type="base"
       ></l-tile-layer>
 
-      <l-control position="topleft"><button>Test</button></l-control>
-
       <l-marker :lat-lng="currLocation">
-        <l-tooltip> You </l-tooltip>
+        <l-tooltip class="black"> You </l-tooltip>
         <l-popup>This is your location</l-popup>
       </l-marker>
+
       <div class="marker" v-if="isPathMarkerVisible">
         <l-marker :lat-lng="locations[0]">
-          <l-tooltip> Start </l-tooltip>
+          <l-tooltip class="black"> Start </l-tooltip>
           <l-popup>This is the start of the route</l-popup>
         </l-marker>
         <l-marker :lat-lng="locations[locations.length - 1]">
-          <l-tooltip> End </l-tooltip>
+          <l-tooltip class="black"> End </l-tooltip>
           <l-popup>This is the end of the route</l-popup>
         </l-marker>
       </div>
+
       <l-polyline
         :name="pathName"
         class="testPoly"
@@ -62,7 +62,6 @@ import {
   LTooltip,
   LPolyline,
   LPopup,
-  LControl,
 } from "@vue-leaflet/vue-leaflet";
 import "leaflet/dist/leaflet.css";
 import { mapState } from "vuex";
@@ -73,20 +72,13 @@ export default {
     LMarker,
     LTooltip,
     LPolyline,
-
     LPopup,
-    LControl,
   },
   data() {
     return {
-      geojson: null,
       currLocation: [31.995809, 77.450126],
-      testLocation: [[31.995809, 77.450126]],
       locErr: null,
       isLocAvailable: false,
-      maxZoom: 18,
-      minZoom: 4,
-      zoomAnim: true,
     };
   },
   methods: {
@@ -113,7 +105,7 @@ export default {
     this.gettingLocation = true;
     navigator.geolocation.getCurrentPosition(
       (pos) => {
-        this.$store.commit("setZoom", 18);
+        this.$store.commit("setZoom", 8);
         this.currLocation = [pos.coords.latitude, pos.coords.longitude];
         this.$store.commit("setPathLoc", [
           pos.coords.latitude,
@@ -155,9 +147,14 @@ export default {
   width: 85vw;
   height: inherit;
 }
+.black {
+  color: black;
+}
+
 .mainMap {
   width: inherit;
   height: inherit;
+  // filter: invert(100%) hue-rotate(180deg) brightness(95%) contrast(90%);
 }
 l-tile-layer {
   height: 100%;

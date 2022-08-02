@@ -18,15 +18,15 @@
           <h5 class="name">{{ user.name }}</h5>
         </span>
         <div class="dropDownMenu">
-          <span @click="profile" class="profileOption">
+          <span @click="profile" ref="profileOption">
             <font-awesome-icon icon="user-astronaut" class="icon" />
             Profile</span
           >
-          <span @click="map" class="mapOption">
+          <span @click="map" ref="mapOption">
             <font-awesome-icon icon="map" class="icon" />
             Map</span
           >
-          <span @click="logout" class="logoutOption">
+          <span @click="logout" ref="logoutOption">
             <font-awesome-icon icon="right-to-bracket" class="icon" />
             Logout</span
           >
@@ -50,13 +50,19 @@ export default {
   methods: {
     logout() {
       this.$auth0.logout({ returnTo: window.location.origin });
+      this.$refs.profileOption.classList.remove("active");
+      this.$refs.mapOption.classList.remove("active");
       localStorage.removeItem("apollo-token");
     },
     profile() {
       this.$router.push("/profile");
+      this.$refs.profileOption.classList.add("active");
+      this.$refs.mapOption.classList.remove("active");
     },
     map() {
       this.$router.push("/map");
+      this.$refs.profileOption.classList.remove("active");
+      this.$refs.mapOption.classList.add("active");
     },
   },
 };
@@ -113,6 +119,7 @@ nav {
           &:hover,
           &:focus {
             background: wheat;
+            color: black;
           }
         }
         .icon {
@@ -120,12 +127,16 @@ nav {
         }
         .active {
           background: wheat;
+          color: black;
         }
       }
     }
   }
   .appName {
     text-transform: uppercase;
+    background: -moz-repeating-linear-gradient(45deg, #69c3ed, yellowgreen);
+    background-clip: text;
+    color: transparent;
   }
 }
 </style>
