@@ -2,12 +2,12 @@
   <nav>
     <ul>
       <li class="list">
-        <h1 class="appName">Project Geo</h1>
+        <h1 class="appName">LOGO</h1>
       </li>
       <li class="list">
         <login-button />
       </li>
-      <li v-if="isAuth && user" class="list user">
+      <li v-if="isAuth && user" class="list user space">
         <span class="userInfo">
           <img
             :src="user.picture"
@@ -15,7 +15,6 @@
             width="50"
             class="userProfilePic"
           />
-          <h5 class="name">{{ user.name }}</h5>
         </span>
         <div class="dropDownMenu">
           <span @click="profile" ref="profileOption">
@@ -32,6 +31,9 @@
           >
         </div>
       </li>
+      <li class="space pathMenu" @click="pathListToggle">
+        <font-awesome-icon icon="map" class="icon" />
+      </li>
     </ul>
   </nav>
 </template>
@@ -45,6 +47,7 @@ export default {
     return {
       user: this.$auth0.user || null,
       isAuth: this.$auth0.isAuthenticated,
+      showPathMenu: false,
     };
   },
   methods: {
@@ -64,6 +67,10 @@ export default {
       this.$refs.profileOption.classList.remove("active");
       this.$refs.mapOption.classList.add("active");
     },
+    pathListToggle() {
+      this.showPathMenu = !this.showPathMenu;
+      this.emitter.emit("pathList", this.showPathMenu);
+    },
   },
 };
 </script>
@@ -71,23 +78,45 @@ export default {
 nav {
   ul {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
+    height: 100vh;
+    // justify-content: space-between;
     align-items: center;
-    background: white;
+    background: wheat;
     padding-inline: 30px;
     text-align: right;
     position: sticky;
     top: 0;
     z-index: 999;
     list-style-type: none;
+    .space {
+      margin-block: 1rem;
+    }
     .user {
       position: relative;
+    }
+    .pathMenu {
+      background: white;
+      padding: 0.7rem 0.8rem;
+      transform: scale(1.2);
+      border-radius: 2rem;
+      &:hover {
+        background: rgb(209, 198, 198);
+        &::after {
+          content: "ShowPath";
+          font-size: 10px;
+          text-align: left;
+          position: absolute;
+          left: 3rem;
+          width: 3rem;
+          background: wheat;
+        }
+      }
     }
     .list {
       .userInfo {
         display: flex;
         justify-content: center;
-        align-items: center;
         column-gap: 1rem;
         .userProfilePic {
           border-radius: 5rem;
@@ -98,14 +127,27 @@ nav {
           flex-direction: column;
         }
       }
+
       .dropDownMenu {
-        position: absolute;
+        z-index: -1;
         display: none;
+        position: absolute;
         background: white;
-        right: 0;
+        top: 0rem;
+        left: 3.5rem;
         padding-inline: 1em;
-        cursor: pointer;
         text-align: center;
+        transition: ease-out 0.5s;
+        animation: slideout 0.2s linear;
+        cursor: pointer;
+        @keyframes slideout {
+          from {
+            left: 2rem;
+          }
+          to {
+            left: 3.5rem;
+          }
+        }
         &:hover,
         &:focus {
           display: flex;
@@ -123,7 +165,16 @@ nav {
           }
         }
         .icon {
+          animation: slideout 0.2s linear;
           margin-inline-end: 0.1rem;
+          @keyframes slideout {
+            from {
+              margin-inline-end: 0.4rem;
+            }
+            to {
+              margin-inline-end: 0.1rem;
+            }
+          }
         }
         .active {
           background: wheat;

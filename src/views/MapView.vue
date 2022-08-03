@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <map-option-component />
+    <map-option-component v-show="showPaths" />
     <map-component />
   </div>
 </template>
@@ -9,9 +9,19 @@ import MapComponent from "@/components/MapComponent.vue";
 import MapOptionComponent from "@/components/MapOptionComponent.vue";
 export default {
   name: "MapView",
+  data() {
+    return {
+      showPaths: false,
+    };
+  },
   components: {
     MapComponent,
     MapOptionComponent,
+  },
+  created() {
+    this.emitter.on("pathList", (e) => {
+      this.showPaths = e;
+    });
   },
 };
 </script>

@@ -1,7 +1,8 @@
 <template>
-  <div class="container"></div>
-  <nav-bar />
-  <router-view />
+  <div class="container">
+    <nav-bar />
+    <router-view />
+  </div>
 </template>
 <script>
 import NavBar from "./components/NavBar.vue";
@@ -11,6 +12,7 @@ export default {
   created() {
     if (!this.$auth0.isAuthenticated) {
       localStorage.removeItem("apollo-token");
+      this.$store.commit("updateToken", "");
       this.$router.push("/");
       return;
     }
@@ -42,6 +44,8 @@ body {
   overflow-x: hidden;
 }
 .container {
+  display: grid;
+  grid-template-columns: 4vw 96vw;
   width: 100%;
   height: 100%;
   .routerView {

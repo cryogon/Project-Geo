@@ -144,7 +144,7 @@ export default {
 </script>
 <style lang="scss">
 .mapView {
-  width: 85vw;
+  width: 100vw;
   height: inherit;
 }
 .black {
@@ -162,5 +162,9 @@ l-tile-layer {
 #loadingAnimation {
   width: 40rem;
   height: 40rem;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 </style>
