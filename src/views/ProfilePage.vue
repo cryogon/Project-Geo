@@ -117,12 +117,17 @@ export default {
       justify-self: left;
     }
     .x {
-      transform: scale(1.3);
+      width: 1rem;
       padding: 0.5rem 0.6rem;
       justify-self: right;
       margin-inline-end: 1rem;
       background: white;
       border-radius: 5rem;
+      transition: ease-out 0.3s;
+      &:hover {
+        box-shadow: inset 1rem 1rem 0 0 rgb(142, 146, 145);
+        color: white;
+      }
     }
     input {
       grid-column: 1 / span 2;
@@ -143,6 +148,7 @@ export default {
       background: transparent;
       transition: ease-out 0.3s;
       font-weight: 900;
+      border-radius: 2rem;
       &:hover {
         box-shadow: inset 6rem 0 0 0 rebeccapurple;
         color: white;
