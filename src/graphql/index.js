@@ -29,3 +29,10 @@ export const UPDATE_PATH = gql`
     }
   }
 `;
+export const DELETE_PATH = gql`
+  mutation deletePath($path: String!) {
+    delete_paths(where: { path_name: { _eq: $path } }) {
+      affected_rows
+    }
+  }
+`;

@@ -11,6 +11,7 @@ export default {
   created() {
     if (!this.$auth0.isAuthenticated) {
       localStorage.removeItem("apollo-token");
+      this.$router.push("/");
       return;
     }
     this.$store.dispatch("loadToken");

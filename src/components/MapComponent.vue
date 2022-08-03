@@ -154,7 +154,6 @@ export default {
 .mainMap {
   width: inherit;
   height: inherit;
-  // filter: invert(100%) hue-rotate(180deg) brightness(95%) contrast(90%);
 }
 l-tile-layer {
   height: 100%;
