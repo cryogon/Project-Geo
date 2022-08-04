@@ -89,7 +89,7 @@ nav {
     height: 100vh;
     // justify-content: space-between;
     align-items: center;
-    background: rgb(218, 160, 52);
+    background: linear-gradient(rgb(68, 68, 68), white);
     padding-inline: 30px;
     text-align: right;
     position: sticky;

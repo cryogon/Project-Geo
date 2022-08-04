@@ -38,6 +38,9 @@
         />
       </l-control>
       <l-marker :lat-lng="currLocation">
+        <l-icon :icon-size="iconSize" className="test">
+          <img src="../../public/circle.svg" alt="myLoc"
+        /></l-icon>
         <l-tooltip class="black"> You </l-tooltip>
         <l-popup>This is your location</l-popup>
       </l-marker>
@@ -71,6 +74,7 @@ import {
   LPolyline,
   LPopup,
   LControl,
+  LIcon,
 } from "@vue-leaflet/vue-leaflet";
 import "leaflet/dist/leaflet.css";
 import { mapState } from "vuex";
@@ -83,12 +87,14 @@ export default {
     LPolyline,
     LPopup,
     LControl,
+    LIcon,
   },
   data() {
     return {
       currLocation: [31.995809, 77.450126],
       locErr: null,
       isLocAvailable: false,
+      iconSize: [20, 20],
     };
   },
   methods: {
@@ -172,6 +178,9 @@ export default {
 .mainMap {
   width: inherit;
   height: inherit;
+  .test {
+    background-color: rgba(51, 171, 207, 0.226);
+  }
   #myLocation {
     background: rgba(0, 0, 0, 0.1);
     border-radius: 2rem;
