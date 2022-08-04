@@ -31,13 +31,13 @@ export default {
 };
 </script>
 <style lang="scss">
-$btn-width: 6rem;
+$btn-width: 4rem;
 .loginButton {
   width: $btn-width;
-  height: 3rem;
+  height: 4rem;
   background: transparent;
   border-style: solid;
-  border-radius: 1rem;
+  border-radius: 5rem;
   transition: ease-out 0.3s;
   outline: none;
   perspective: 10px;

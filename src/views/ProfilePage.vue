@@ -6,6 +6,7 @@
         <h2 class="name">{{ name }}</h2>
         <h3 class="email">{{ email }}</h3>
       </div>
+      <button @click="deleteUser" class="deleteUser">Delete User</button>
     </div>
 
     <div class="popup" v-if="onEditMode">
@@ -34,7 +35,13 @@
   </div>
 </template>
 <script>
-import { DELETE_PATH, GET_PATH, UPDATE_PATH } from "@/graphql";
+import {
+  DELETE_PATH,
+  GET_PATH,
+  UPDATE_PATH,
+  DELETE_USER,
+  DELETE_ALL_PATH,
+} from "@/graphql";
 
 export default {
   apollo: {
@@ -47,6 +54,7 @@ export default {
       name: this.$auth0.user.value.name,
       email: this.$auth0.user.value.email,
       profilePic: this.$auth0.user.value.picture,
+      id: this.$auth0.user.value.sub,
       newPath: "",
       oldPath: "",
       onEditMode: false,
@@ -89,6 +97,34 @@ export default {
           },
         });
         this.$apollo.queries.paths.refetch();
+      }
+    },
+    deleteUser() {
+      let conf = confirm(
+        " Are You Sure?\n \n All of your Paths will be removed and cannot be restored"
+      );
+      if (conf) {
+        let pro = prompt(`Write "CONFIRM" to delete your account`);
+        if (pro === "CONFIRM") {
+          this.$apollo.mutate({
+            mutation: DELETE_ALL_PATH,
+            variables: {
+              id: this.id,
+            },
+          });
+          this.$nextTick(() => {
+            this.$apollo.mutate({
+              mutation: DELETE_USER,
+              variables: {
+                id: this.id,
+              },
+            });
+          });
+          this.$nextTick(() => {
+            localStorage.setItem("apollo-token", "");
+            this.$auth0.logout();
+          });
+        }
       }
     },
   },
@@ -161,7 +197,7 @@ export default {
     place-items: center right;
     margin-block-start: 5rem;
     grid-template-rows: 1fr 1fr;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr 10rem;
     .picture {
       width: 8rem;
       margin-inline-end: 2rem;
@@ -172,12 +208,29 @@ export default {
       justify-self: start;
       grid-row: 1 / span 2;
     }
+    .deleteUser {
+      color: white;
+      font-size: 14px;
+      background: red;
+      outline: none;
+      height: 3rem;
+      width: 5rem;
+      margin-inline-end: 5rem;
+      border-radius: 1rem;
+      grid-row: 1 / span 2;
+      &:hover {
+        background: rgb(196, 44, 44);
+        content: "Sure";
+      }
+    }
   }
   .optionBar {
     text-align: center;
     padding-block-start: 1rem;
+    margin-block-start: 1.7rem;
+
     .optionItem {
-      font-weight: bolder;
+      font-weight: 900;
     }
   }
   .pathContainer {
@@ -191,7 +244,13 @@ export default {
     .pathOption {
       padding-inline: 1rem;
       .icon {
-        margin-inline: 1rem;
+        padding: 0.3rem 0.5rem;
+        border-radius: 2rem;
+        transition: 0.2s;
+        margin-inline: 0.3rem;
+        &:hover {
+          background: rgb(165, 162, 162);
+        }
       }
     }
   }

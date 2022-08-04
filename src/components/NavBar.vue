@@ -82,7 +82,7 @@ nav {
     height: 100vh;
     // justify-content: space-between;
     align-items: center;
-    background: wheat;
+    background: rgb(218, 160, 52);
     padding-inline: 30px;
     text-align: right;
     position: sticky;
@@ -118,13 +118,14 @@ nav {
         display: flex;
         justify-content: center;
         column-gap: 1rem;
-        .userProfilePic {
-          border-radius: 5rem;
-        }
         &:hover ~ .dropDownMenu,
         &:focus ~ .dropDownMenu {
           display: flex;
           flex-direction: column;
+        }
+        .userProfilePic {
+          border-radius: 5rem;
+          margin-inline: 0.2rem;
         }
       }
 

@@ -48,9 +48,9 @@ export default {
     };
   },
   methods: {
-    setPath(path) {
-      this.$store.commit("setLocations", path.path.latLng);
-      this.$store.commit("setPathLoc", path.path.latLng[0]);
+    setPath({ path }) {
+      this.$store.commit("setLocations", path.latLng);
+      this.$store.commit("setMapCenter", path.latLng[0]);
       this.$store.commit("setMarkerVisibility", true);
       this.$store.commit("setZoom", 16);
     },
@@ -101,10 +101,13 @@ export default {
   display: none;
 }
 .options {
+  position: absolute;
+  z-index: 999;
   width: 15vw;
   height: inherit;
   overflow-y: auto;
   overflow-x: hidden;
+  background: white;
   #createPath {
     margin-inline-start: 2rem;
     background: linear-gradient(125deg, hotpink, rgb(42, 175, 216));

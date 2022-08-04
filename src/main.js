@@ -14,10 +14,19 @@ import {
   faMap,
   faPencil,
   faX,
+  faLocationArrow,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { domain, clientId as client_id, audience } from "../auth_config.json";
-library.add(faUser, faRightToBracket, faUserAstronaut, faMap, faPencil, faX);
+library.add(
+  faUser,
+  faRightToBracket,
+  faUserAstronaut,
+  faMap,
+  faPencil,
+  faX,
+  faLocationArrow
+);
 const emitter = mitt();
 
 const app = createApp(App);

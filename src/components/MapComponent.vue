@@ -15,7 +15,7 @@
       v-if="isLocAvailable"
       v-model="zoom"
       v-model:zoom="zoom"
-      :center="pathLocation"
+      :center="center"
       :maxZoom="18"
       :minZoom="4"
       :zoomAnimation="true"
@@ -29,6 +29,13 @@
         layer-type="base"
       ></l-tile-layer>
 
+      <l-control position="topright">
+        <font-awesome-icon
+          icon="location-arrow"
+          id="myLocation"
+          @click="myLocation"
+        />
+      </l-control>
       <l-marker :lat-lng="currLocation">
         <l-tooltip class="black"> You </l-tooltip>
         <l-popup>This is your location</l-popup>
@@ -62,6 +69,7 @@ import {
   LTooltip,
   LPolyline,
   LPopup,
+  LControl,
 } from "@vue-leaflet/vue-leaflet";
 import "leaflet/dist/leaflet.css";
 import { mapState } from "vuex";
@@ -73,6 +81,7 @@ export default {
     LTooltip,
     LPolyline,
     LPopup,
+    LControl,
   },
   data() {
     return {
@@ -95,6 +104,10 @@ export default {
         }
       }
     },
+    myLocation() {
+      this.$store.commit("setMapCenter", this.currLocation);
+      this.$store.commit("setZoom", 16);
+    },
   },
   created() {
     if (!("geolocation" in navigator)) {
@@ -107,7 +120,7 @@ export default {
       (pos) => {
         this.$store.commit("setZoom", 8);
         this.currLocation = [pos.coords.latitude, pos.coords.longitude];
-        this.$store.commit("setPathLoc", [
+        this.$store.commit("setMapCenter", [
           pos.coords.latitude,
           pos.coords.longitude,
         ]);
@@ -126,7 +139,7 @@ export default {
     ...mapState([
       "pathName",
       "locations",
-      "pathLocation",
+      "mapCenter",
       "onCreateMode",
       "isPathMarkerVisible",
       "mapZoom",
@@ -139,12 +152,20 @@ export default {
         return this.mapZoom;
       },
     },
+    center: {
+      set(center) {
+        this.$store.commit("setMapCenter", center);
+      },
+      get() {
+        return this.mapCenter;
+      },
+    },
   },
 };
 </script>
 <style lang="scss">
 .mapView {
-  width: 100vw;
+  width: 96vw;
   height: inherit;
 }
 .black {
@@ -154,6 +175,9 @@ export default {
 .mainMap {
   width: inherit;
   height: inherit;
+  #myLocation {
+    transform: translate(1.3);
+  }
 }
 l-tile-layer {
   height: 100%;
