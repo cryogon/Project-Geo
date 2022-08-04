@@ -31,7 +31,7 @@
           >
         </div>
       </li>
-      <li class="space pathMenu" @click="pathListToggle">
+      <li class="space pathMenu pointer" @click="pathListToggle">
         <font-awesome-icon icon="map" class="icon" />
       </li>
     </ul>
@@ -70,11 +70,18 @@ export default {
     pathListToggle() {
       this.showPathMenu = !this.showPathMenu;
       this.emitter.emit("pathList", this.showPathMenu);
+      if (!this.showPathMenu) {
+        this.$store.commit("setMarkerVisibility", false);
+        this.$store.commit("setLocations", []);
+      }
     },
   },
 };
 </script>
 <style lang="scss">
+.pointer {
+  cursor: pointer;
+}
 nav {
   ul {
     display: flex;

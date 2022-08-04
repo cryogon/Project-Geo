@@ -15,7 +15,8 @@
       v-if="isLocAvailable"
       v-model="zoom"
       v-model:zoom="zoom"
-      :center="center"
+      :center="mapCenter"
+      @update:center="centerUpdated"
       :maxZoom="18"
       :minZoom="4"
       :zoomAnimation="true"
@@ -106,7 +107,11 @@ export default {
     },
     myLocation() {
       this.$store.commit("setMapCenter", this.currLocation);
-      this.$store.commit("setZoom", 16);
+      // await this.$nextTick();
+      // this.$store.commit("setZoom", 16);
+    },
+    centerUpdated(center) {
+      this.$store.commit("setMapCenter", [center.lat, center.lng]);
     },
   },
   created() {
@@ -152,14 +157,6 @@ export default {
         return this.mapZoom;
       },
     },
-    center: {
-      set(center) {
-        this.$store.commit("setMapCenter", center);
-      },
-      get() {
-        return this.mapCenter;
-      },
-    },
   },
 };
 </script>
@@ -176,7 +173,14 @@ export default {
   width: inherit;
   height: inherit;
   #myLocation {
-    transform: translate(1.3);
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 2rem;
+    cursor: pointer;
+    transform: scale(2);
+    padding: 0.5rem;
+    &:hover {
+      background: rgba(0, 0, 0, 0.2);
+    }
   }
 }
 l-tile-layer {

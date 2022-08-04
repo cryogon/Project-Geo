@@ -52,7 +52,7 @@ export default {
       this.$store.commit("setLocations", path.latLng);
       this.$store.commit("setMapCenter", path.latLng[0]);
       this.$store.commit("setMarkerVisibility", true);
-      this.$store.commit("setZoom", 16);
+      // this.$store.commit("setZoom", 16);
     },
     setCreateModeTrue() {
       this.$store.commit("setCreateMode", true);
