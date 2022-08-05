@@ -2,7 +2,7 @@
   <nav>
     <ul>
       <li class="list">
-        <h1 class="appName">LOGO</h1>
+        <h1 class="appName">Geo</h1>
       </li>
       <li class="list">
         <login-button />
