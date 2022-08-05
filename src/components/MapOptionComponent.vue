@@ -1,6 +1,6 @@
 <template>
   <div class="options">
-    <button @click="setCreateModeTrue" v-if="!onCreateMode" id="createPath">
+    <!-- <button @click="setCreateModeTrue" v-if="!onCreateMode" id="createPath">
       createPath
     </button>
     <div class="pathInputBox" v-if="onCreateMode">
@@ -16,7 +16,7 @@
         >note:Give path name and mark the path on the map first before clicking
         on create path</span
       >
-    </div>
+    </div> -->
 
     <div class="listOfPaths" v-cloak>
       <ol>
@@ -52,7 +52,9 @@ export default {
       this.$store.commit("setLocations", path.latLng);
       this.$store.commit("setMapCenter", path.latLng[0]);
       this.$store.commit("setMarkerVisibility", true);
-      // this.$store.commit("setZoom", 16);
+      setTimeout(() => {
+        this.$store.commit("setZoom", 8);
+      }, 300);
     },
     setCreateModeTrue() {
       this.$store.commit("setCreateMode", true);
@@ -75,7 +77,9 @@ export default {
           this.$store.commit("setLocations", []);
           this.$apollo.queries.paths.refetch();
         } else {
-          alert("Please enter a valid path");
+          alert(
+            "Please select path on the map first before hitting create button"
+          );
         }
       } catch (err) {
         console.log(err);
@@ -90,6 +94,18 @@ export default {
   },
   beforeMount() {
     this.$apollo.queries.paths.refetch();
+  },
+  created() {
+    this.emitter.on("createMode", () => {
+      this.setCreateModeTrue();
+    });
+    this.emitter.on("cancelPath", () => {
+      this.cancel();
+    });
+    this.emitter.on("createPath", (name) => {
+      this.pathName = name;
+      this.createPolyline();
+    });
   },
   computed: {
     ...mapState(["locations", "onCreateMode"]),

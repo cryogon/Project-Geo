@@ -30,15 +30,28 @@
         layer-type="base"
       ></l-tile-layer>
 
-      <l-control position="topright">
+      <l-control position="topright" class="control">
         <font-awesome-icon
           icon="location-arrow"
-          id="myLocation"
+          class="controlIcons"
           @click="myLocation"
         />
+        <div>
+          <font-awesome-icon
+            icon="pencil"
+            class="controlIcons createPath"
+            @click="createModeOn"
+          />
+          <div class="pathDiv" ref="pathDiv">
+            <h2>Create Path</h2>
+            <input type="text" placeholder="Path Name" v-model="nameOfPath" />
+            <button @click="createPath" class="createPath">Create</button>
+            <button @click="cancelPath" class="cancelPath">Cancel</button>
+          </div>
+        </div>
       </l-control>
       <l-marker :lat-lng="currLocation">
-        <l-icon :icon-size="iconSize" className="test">
+        <l-icon :icon-size="iconSize" className="myCurrLocation">
           <img src="../../public/circle.svg" alt="myLoc"
         /></l-icon>
         <l-tooltip class="black"> You </l-tooltip>
@@ -95,6 +108,8 @@ export default {
       locErr: null,
       isLocAvailable: false,
       iconSize: [20, 20],
+      nameOfPath: "",
+      createPathMenuVisible: false,
     };
   },
   methods: {
@@ -113,8 +128,28 @@ export default {
     },
     myLocation() {
       this.$store.commit("setMapCenter", this.currLocation);
-      // await this.$nextTick();
-      // this.$store.commit("setZoom", 16);
+      setTimeout(() => {
+        this.$store.commit("setZoom", 16);
+      }, 300);
+    },
+    createModeOn() {
+      this.createPathMenuVisible = !this.createPathMenuVisible;
+      if (this.createPathMenuVisible) {
+        this.$refs.pathDiv.style.display = "grid";
+        this.emitter.emit("createMode");
+      } else {
+        this.$refs.pathDiv.style.display = "none";
+        this.emitter.emit("cancelPath");
+      }
+    },
+    createPath() {
+      this.emitter.emit("createPath", this.nameOfPath);
+      this.$refs.pathDiv.style.display = "none";
+      this.nameOfPath = "";
+    },
+    cancelPath() {
+      this.$refs.pathDiv.style.display = "none";
+      this.emitter.emit("cancelPath");
     },
     centerUpdated(center) {
       this.$store.commit("setMapCenter", [center.lat, center.lng]);
@@ -178,10 +213,57 @@ export default {
 .mainMap {
   width: inherit;
   height: inherit;
-  .test {
+  .control {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 6rem;
+    .createPath {
+      position: relative;
+    }
+    .pathDiv {
+      display: none;
+      place-items: center;
+      width: 15rem;
+      height: 12rem;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr 1fr 1fr;
+      background: white;
+      position: absolute;
+      right: 3rem;
+      top: 0;
+      h2 {
+        grid-column: 1 / span 2;
+        text-transform: uppercase;
+      }
+      input {
+        grid-column: 1 / span 2;
+        height: 3rem;
+        outline: none;
+        border: none;
+        border-inline-start: 1px solid black;
+        border-block-end: 1px solid black;
+        padding-inline-start: 5px;
+      }
+      button {
+        width: 5rem;
+        height: 3rem;
+        outline: none;
+        background: transparent;
+        transition: ease-out 0.2s;
+        border-radius: 1rem;
+        &:hover {
+          box-shadow: inset 5rem 1rem 0 0 rgb(104, 101, 101);
+          color: white;
+          font-weight: bolder;
+        }
+      }
+    }
+  }
+  .myCurrLocation {
     background-color: rgba(51, 171, 207, 0.226);
   }
-  #myLocation {
+  .controlIcons {
     background: rgba(0, 0, 0, 0.1);
     border-radius: 2rem;
     cursor: pointer;
