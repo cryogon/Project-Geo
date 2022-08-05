@@ -1,23 +1,5 @@
 <template>
   <div class="options">
-    <!-- <button @click="setCreateModeTrue" v-if="!onCreateMode" id="createPath">
-      createPath
-    </button>
-    <div class="pathInputBox" v-if="onCreateMode">
-      <input
-        class="pathNameInput"
-        type="text"
-        v-model="pathName"
-        placeholder="Enter Path Name"
-      />
-      <button v-if="onCreateMode" @click="createPolyline">Create</button>
-      <button v-if="onCreateMode" @click="cancel">Cancel</button>
-      <span
-        >note:Give path name and mark the path on the map first before clicking
-        on create path</span
-      >
-    </div> -->
-
     <div class="listOfPaths" v-cloak>
       <ol>
         <li
