@@ -93,11 +93,13 @@ export default {
   cursor: pointer;
 }
 nav {
+  height: 100%;
+  width: 100%;
   ul {
     display: flex;
     flex-direction: column;
-    height: 100vh;
-    // justify-content: space-between;
+    height: inherit;
+    width: inherit;
     align-items: center;
     background: linear-gradient(rgb(68, 68, 68), white);
     padding-inline: 30px;
