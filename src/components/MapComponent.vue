@@ -130,7 +130,7 @@ export default {
       this.$store.commit("setMapCenter", this.currLocation);
       setTimeout(() => {
         this.$store.commit("setZoom", 16);
-      }, 300);
+      }, 370);
     },
     createModeOn() {
       this.createPathMenuVisible = !this.createPathMenuVisible;
