@@ -27,8 +27,6 @@ export default {
 </script>
 <style lang="scss">
 .home {
-  display: grid;
-  grid-template-columns: 15vw 85vw;
   height: 100vh;
   width: 100vw;
   padding-inline-end: 1rem;

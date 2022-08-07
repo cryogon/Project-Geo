@@ -286,4 +286,9 @@ l-tile-layer {
   left: 50%;
   transform: translate(-50%, -50%);
 }
+@media screen and(max-width:35rem) {
+  .mapView {
+    width: 100vw;
+  }
+}
 </style>

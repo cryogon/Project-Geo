@@ -1,6 +1,6 @@
 <template>
-  <nav>
-    <ul>
+  <nav class="navBar">
+    <ul class="unorderedList">
       <li class="list">
         <h1 class="appName">Geo</h1>
       </li>
@@ -89,13 +89,13 @@ export default {
 };
 </script>
 <style lang="scss">
-.pointer {
-  cursor: pointer;
-}
-nav {
+.navBar {
   height: 100%;
   width: 100%;
-  ul {
+  .pointer {
+    cursor: pointer;
+  }
+  .unorderedList {
     display: flex;
     flex-direction: column;
     height: inherit;

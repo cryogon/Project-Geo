@@ -1,16 +1,27 @@
 <template>
   <div class="container">
-    <nav-bar />
+    <nav-bar-mobile v-if="mobileMode" />
+    <nav-bar v-else />
     <router-view />
   </div>
 </template>
 <script>
 import NavBar from "./components/NavBar.vue";
+import NavBarMobile from "@/components/NavBarMobile.vue";
 export default {
-  components: { NavBar },
+  components: { NavBar, NavBarMobile },
   name: "MainComponents",
+  data() {
+    return {
+      mobileMode: false,
+    };
+  },
   created() {
     this.$store.dispatch("loadToken");
+    let screenSize = window.matchMedia("(max-width:35rem)");
+    if (screenSize.matches) {
+      this.mobileMode = true;
+    } else this.mobileMode = false;
   },
 };
 </script>
@@ -39,11 +50,15 @@ body {
 }
 .container {
   display: grid;
-  grid-template-columns: 4vw 96vw;
-  width: 100%;
-  height: 100%;
-  .routerView {
-    z-index: -1;
+  grid-template-columns: 4vw 80vw;
+
+  width: 100vw;
+  height: 100vh;
+}
+@media screen and (max-width: 35rem) {
+  .container {
+    display: flex;
+    flex-direction: column;
   }
 }
 </style>
