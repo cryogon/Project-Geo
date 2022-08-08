@@ -30,7 +30,7 @@
         </div>
       </li>
 
-      <li class="pathButton pointer" @click="pathListToggle">
+      <li class="pathButton pointer" @click="pathListToggle" ref="pathToggle">
         <font-awesome-icon icon="map" />
       </li>
     </ul>
@@ -47,6 +47,7 @@ export default {
       user: this.$auth0.user || null,
       isAuth: this.$auth0.isAuthenticated,
       showPathMenu: false,
+      currRoute: this.$router.currentRoute,
     };
   },
   methods: {
@@ -75,6 +76,12 @@ export default {
       }
     },
   },
+  watch: {
+    currRoute(path) {
+      if (path.name != "map") this.$refs.pathToggle.style.display = "none";
+      else this.$refs.pathToggle.style.display = "block";
+    },
+  },
 };
 </script>
 <style lang="scss">
@@ -82,10 +89,11 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  border-radius: 1rem;
   width: 100%;
   height: 4rem;
   z-index: 9999;
-  background: linear-gradient(30deg, #fff, rgba(0, 0, 0, 0.445));
+  background: linear-gradient(30deg, #f2efe9, #bddab1);
   .pointer {
     cursor: pointer;
   }

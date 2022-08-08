@@ -31,7 +31,11 @@
           >
         </div>
       </li>
-      <li class="space pathMenu pointer" @click="pathListToggle">
+      <li
+        class="space pathMenu pointer"
+        @click="pathListToggle"
+        ref="pathToggle"
+      >
         <font-awesome-icon icon="map" class="icon" />
       </li>
     </ul>
@@ -48,6 +52,7 @@ export default {
       user: this.$auth0.user || null,
       isAuth: this.$auth0.isAuthenticated,
       showPathMenu: false,
+      currRoute: this.$router.currentRoute,
     };
   },
   methods: {
@@ -77,6 +82,12 @@ export default {
     },
   },
 
+  watch: {
+    currRoute(path) {
+      if (path.name != "map") this.$refs.pathToggle.style.display = "none";
+      else this.$refs.pathToggle.style.display = "block";
+    },
+  },
   created() {
     setTimeout(() => {
       if (!this.isAuth) {
