@@ -1,5 +1,9 @@
 <template>
+<<<<<<< HEAD
   <nav class="mobileNav">
+=======
+  <nav class="mobileNav" ref="navbar">
+>>>>>>> d1a0b54 (Fixed Error 403 on profile picture)
     <h2 class="appName">GEO</h2>
     <ul>
       <li class="list">
@@ -12,6 +16,10 @@
             alt="User's Profile Pic"
             width="50"
             class="userProfilePicM pointer"
+<<<<<<< HEAD
+=======
+            referrerpolicy="no-referrer"
+>>>>>>> d1a0b54 (Fixed Error 403 on profile picture)
           />
         </span>
         <div class="dropDownMenu pointer">
@@ -78,8 +86,20 @@ export default {
   },
   watch: {
     currRoute(path) {
+<<<<<<< HEAD
       if (path.name != "map") this.$refs.pathToggle.style.display = "none";
       else this.$refs.pathToggle.style.display = "block";
+=======
+      console.log(path.name);
+      if (path.name != "map") {
+        this.$refs.pathToggle.style.display = "none";
+        this.$refs.navbar.style.background = "inherit";
+      } else {
+        this.$refs.pathToggle.style.display = "block";
+        this.$refs.navbar.style.background =
+          "linear-gradient(30deg, #f2efe9 50%, #bddab1 100%)";
+      }
+>>>>>>> d1a0b54 (Fixed Error 403 on profile picture)
     },
   },
 };
@@ -93,7 +113,11 @@ export default {
   width: 100%;
   height: 4rem;
   z-index: 9999;
+<<<<<<< HEAD
   background: linear-gradient(30deg, #f2efe9, #bddab1);
+=======
+  // background: linear-gradient(30deg, #f2efe9, #bddab1);
+>>>>>>> d1a0b54 (Fixed Error 403 on profile picture)
   .pointer {
     cursor: pointer;
   }
@@ -120,6 +144,10 @@ export default {
       .userProfilePicM {
         border-radius: 5rem;
         margin-inline: 0.2rem;
+<<<<<<< HEAD
+=======
+        box-shadow: 0 0 5px grey;
+>>>>>>> d1a0b54 (Fixed Error 403 on profile picture)
       }
       &:hover {
         ~ .dropDownMenu {
@@ -153,7 +181,11 @@ export default {
     .pathButton {
       background: white;
       padding: 0.5rem;
+<<<<<<< HEAD
 
+=======
+      box-shadow: 0 0 5px grey;
+>>>>>>> d1a0b54 (Fixed Error 403 on profile picture)
       transform: scale(1.4);
       border-radius: 2rem;
       &:hover,

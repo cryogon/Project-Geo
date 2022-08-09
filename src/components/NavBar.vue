@@ -14,6 +14,10 @@
             alt="User's Profile Pic"
             width="50"
             class="userProfilePic"
+<<<<<<< HEAD
+=======
+            referrerpolicy="no-referrer"
+>>>>>>> d1a0b54 (Fixed Error 403 on profile picture)
           />
         </span>
         <div class="dropDownMenu">
@@ -112,7 +116,12 @@ export default {
     height: inherit;
     width: inherit;
     align-items: center;
+<<<<<<< HEAD
     background: linear-gradient(rgb(68, 68, 68), white);
+=======
+    // background: linear-gradient(rgb(68, 68, 68), white);
+    background-blend-mode: soft-light;
+>>>>>>> d1a0b54 (Fixed Error 403 on profile picture)
     padding-inline: 30px;
     text-align: right;
     position: sticky;
@@ -127,9 +136,16 @@ export default {
     }
     .pathMenu {
       background: white;
+<<<<<<< HEAD
       padding: 0.7rem 0.8rem;
       transform: scale(1.2);
       border-radius: 2rem;
+=======
+      padding: 0.7rem 0.75rem;
+      transform: scale(1.2);
+      border-radius: 2rem;
+      box-shadow: 0 0 5px grey;
+>>>>>>> d1a0b54 (Fixed Error 403 on profile picture)
       &:hover {
         background: rgb(209, 198, 198);
         &::after {
@@ -155,6 +171,10 @@ export default {
         }
         .userProfilePic {
           border-radius: 5rem;
+<<<<<<< HEAD
+=======
+          box-shadow: 0 0 5px grey;
+>>>>>>> d1a0b54 (Fixed Error 403 on profile picture)
           margin-inline: 0.2rem;
         }
       }
