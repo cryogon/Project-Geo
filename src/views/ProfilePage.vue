@@ -134,6 +134,7 @@ export default {
 .profilePage {
   position: relative;
   z-index: 0;
+  overflow-y: hidden;
   .popup {
     display: grid;
     grid-template-rows: repeat(3, 1fr);
@@ -236,6 +237,21 @@ export default {
   .pathContainer {
     overflow-y: auto;
     height: 23em;
+    &::-webkit-scrollbar {
+      width: 0.8rem;
+    }
+    &::-webkit-scrollbar-track {
+      // box-shadow: inset 0 0 6px darkcyan;
+      border-radius: 2rem;
+      background: repeating-linear-gradient(rgba(0, 0, 0, 0.207), grey);
+    }
+    &::-webkit-scrollbar-thumb {
+      background-color: rgba(63, 55, 55, 0.221);
+      outline: 1px solid slategrey;
+      border-radius: 2rem;
+      height: 1rem;
+    }
+
     h3 {
       display: flex;
       justify-content: space-between;

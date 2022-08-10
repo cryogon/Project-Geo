@@ -37,6 +37,7 @@ $secondaryBackgroundColor: rgb(219, 198, 198);
   box-sizing: border-box;
 }
 body {
+  overflow-y: hidden;
   button {
     cursor: pointer;
   }
@@ -51,7 +52,6 @@ body {
 .container {
   display: grid;
   grid-template-columns: 4vw 80vw;
-
   width: 100vw;
   height: 100vh;
 }

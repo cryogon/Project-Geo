@@ -213,6 +213,7 @@ export default {
 .mainMap {
   width: inherit;
   height: inherit;
+  box-shadow: 4px 0 1rem grey;
   .control {
     display: flex;
     flex-direction: column;
