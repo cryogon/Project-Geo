@@ -104,6 +104,8 @@ export default {
 .navBar {
   height: 100%;
   width: 100%;
+  box-shadow: -4px 0 1rem grey;
+  z-index: 99999;
   .pointer {
     cursor: pointer;
   }

@@ -130,7 +130,7 @@ export default {
       this.$store.commit("setMapCenter", this.currLocation);
       setTimeout(() => {
         this.$store.commit("setZoom", 16);
-      }, 370);
+      }, 400);
     },
     createModeOn() {
       this.createPathMenuVisible = !this.createPathMenuVisible;
@@ -213,7 +213,7 @@ export default {
 .mainMap {
   width: inherit;
   height: inherit;
-  box-shadow: 4px 0 1rem grey;
+
   .control {
     display: flex;
     flex-direction: column;
