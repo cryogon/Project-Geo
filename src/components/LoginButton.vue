@@ -31,33 +31,19 @@ export default {
 };
 </script>
 <style lang="scss">
-<<<<<<< HEAD
-$btn-width: 4rem;
-.loginButton {
-  width: $btn-width;
-  height: 4rem;
-=======
 $btn-size: 3rem;
 .loginButton {
   margin-block-start: 1rem;
   width: $btn-size;
   height: $btn-size;
->>>>>>> d1a0b54 (Fixed Error 403 on profile picture)
   background: transparent;
   border-style: solid;
   border-radius: 5rem;
   transition: ease-out 0.3s;
   outline: none;
   perspective: 10px;
-
   &:hover {
-<<<<<<< HEAD
-    box-shadow: inset $btn-width 0 0 0 rgb(199, 106, 106);
-=======
     box-shadow: inset $btn-size 0 0 0 rgb(199, 106, 106);
->>>>>>> d1a0b54 (Fixed Error 403 on profile picture)
-    color: white;
-    font-size: 16px;
   }
 }
 </style>
