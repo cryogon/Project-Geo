@@ -113,7 +113,6 @@ export default {
     height: inherit;
     width: inherit;
     align-items: center;
-    // background: linear-gradient(rgb(68, 68, 68), white);
     background-blend-mode: soft-light;
     padding-inline: 30px;
     text-align: right;

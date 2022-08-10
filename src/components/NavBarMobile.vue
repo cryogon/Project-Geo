@@ -15,7 +15,7 @@
             referrerpolicy="no-referrer"
           />
         </span>
-        <div class="dropDownMenu pointer">
+        <div class="dropDownMenu pointer" ref="dropDown">
           <span @click="profile" ref="profileOption">
             <font-awesome-icon icon="user-astronaut" class="icon" />
             Profile</span
@@ -79,9 +79,6 @@ export default {
   },
   watch: {
     currRoute(path) {
-      if (path.name != "map") this.$refs.pathToggle.style.display = "none";
-      else this.$refs.pathToggle.style.display = "block";
-      console.log(path.name);
       if (path.name != "map") {
         this.$refs.pathToggle.style.display = "none";
         this.$refs.navbar.style.background = "inherit";
@@ -104,7 +101,6 @@ export default {
   height: 4rem;
   z-index: 9999;
   background: linear-gradient(30deg, #f2efe9, #bddab1);
-  // background: linear-gradient(30deg, #f2efe9, #bddab1);
   .pointer {
     cursor: pointer;
   }
@@ -147,6 +143,7 @@ export default {
       min-width: 7rem;
       min-height: 5rem;
       top: 3.5rem;
+      right: 2rem;
       border-radius: 1rem;
       z-index: 9999;
       &:hover,

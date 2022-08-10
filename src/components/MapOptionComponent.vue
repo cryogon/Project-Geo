@@ -165,4 +165,12 @@ export default {
     }
   }
 }
+@media screen and (max-width: 35rem) {
+  .options {
+    width: 10rem;
+    height: 20rem;
+    border-radius: 1rem;
+    right: 2rem;
+  }
+}
 </style>

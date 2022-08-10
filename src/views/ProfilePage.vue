@@ -241,7 +241,6 @@ export default {
       width: 0.8rem;
     }
     &::-webkit-scrollbar-track {
-      // box-shadow: inset 0 0 6px darkcyan;
       border-radius: 2rem;
       background: repeating-linear-gradient(rgba(0, 0, 0, 0.207), grey);
     }
