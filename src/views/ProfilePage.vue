@@ -12,7 +12,7 @@
     <div class="popup" v-if="onEditMode">
       <h2 class="popUpTitle">Update Path</h2>
       <font-awesome-icon icon="x" class="icon x" @click="onEditMode = false" />
-      <input type="text" v-model="newPath" />
+      <input type="text" v-model="newPath" ref="editPathInput" />
       <button @click="updatePathName">Update</button>
     </div>
 
@@ -68,6 +68,9 @@ export default {
       this.oldPath = this.$refs.items[i].innerText;
       this.newPath = this.oldPath;
       this.onEditMode = true;
+      this.$nextTick(() => {
+        this.$refs.editPathInput.focus();
+      });
     },
     async updatePathName() {
       try {

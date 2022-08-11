@@ -48,6 +48,10 @@ body {
   button {
     cursor: pointer;
   }
+  background: -moz-linear-gradient(
+    $primaryBackgroundColor,
+    $secondaryBackgroundColor
+  );
   background: linear-gradient(
     $primaryBackgroundColor,
     $secondaryBackgroundColor

@@ -103,9 +103,11 @@ export default {
 <style lang="scss">
 .navBar {
   height: 100%;
-  width: 100%;
+  width: 3.7rem;
   box-shadow: -4px 0 1rem grey;
   z-index: 99999;
+  background: -moz-linear-gradient(white, rgb(219, 198, 198));
+  background: linear-gradient(white, rgb(219, 198, 198));
   .pointer {
     cursor: pointer;
   }

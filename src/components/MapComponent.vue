@@ -11,6 +11,7 @@
       />
     </div>
     <l-map
+      ref="map"
       class="mainMap"
       v-if="isLocAvailable"
       v-model="zoom"
@@ -44,7 +45,12 @@
           />
           <div class="pathDiv" ref="pathDiv">
             <h2>Create Path</h2>
-            <input type="text" placeholder="Path Name" v-model="nameOfPath" />
+            <input
+              type="text"
+              placeholder="Path Name"
+              v-model="nameOfPath"
+              ref="pathInput"
+            />
             <button @click="createPath" class="createPath">Create</button>
             <button @click="cancelPath" class="cancelPath">Cancel</button>
           </div>
@@ -137,6 +143,7 @@ export default {
       if (this.createPathMenuVisible) {
         this.$refs.pathDiv.style.display = "grid";
         this.emitter.emit("createMode");
+        this.$refs.pathInput.focus();
       } else {
         this.$refs.pathDiv.style.display = "none";
         this.emitter.emit("cancelPath");
@@ -145,6 +152,7 @@ export default {
     createPath() {
       this.emitter.emit("createPath", this.nameOfPath);
       this.$refs.pathDiv.style.display = "none";
+
       this.nameOfPath = "";
     },
     cancelPath() {
