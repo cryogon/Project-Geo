@@ -19,7 +19,7 @@
       :center="mapCenter"
       @update:center="centerUpdated"
       :maxZoom="18"
-      :minZoom="4"
+      :minZoom="2"
       :zoomAnimation="true"
       :options="{ zoomControl: false }"
       @click="getCurrLoc"

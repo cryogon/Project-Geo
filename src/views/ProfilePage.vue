@@ -225,6 +225,7 @@ export default {
       grid-row: 1 / span 2;
       font-weight: 600;
       border: none;
+      box-shadow: 4px 4px 10px #7b0101;
       &:hover {
         background: rgb(196, 44, 44);
       }

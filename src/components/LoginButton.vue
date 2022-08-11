@@ -44,6 +44,9 @@ $btn-size: 3rem;
   perspective: 10px;
   &:hover {
     box-shadow: inset $btn-size 0 0 0 rgb(199, 106, 106);
+    color: white;
+    font-weight: 600;
+    letter-spacing: 1px;
   }
 }
 </style>
