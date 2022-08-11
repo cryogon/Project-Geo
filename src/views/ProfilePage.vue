@@ -6,7 +6,7 @@
         <h2 class="name">{{ name }}</h2>
         <h3 class="email">{{ email }}</h3>
       </div>
-      <button @click="deleteUser" class="deleteUser">Delete User</button>
+      <button @click="deleteUser" class="deleteUser">Delete</button>
     </div>
 
     <div class="popup" v-if="onEditMode">
@@ -88,8 +88,8 @@ export default {
     },
     deletePath(i) {
       let tempName = this.$refs.items[i].innerText;
-      let conf = confirm("Are you sure?");
-      if (conf) {
+      let cnfrm = confirm("Are you sure?");
+      if (cnfrm) {
         this.$apollo.mutate({
           mutation: DELETE_PATH,
           variables: {
@@ -100,12 +100,12 @@ export default {
       }
     },
     deleteUser() {
-      let conf = confirm(
-        " Are You Sure?\n \n All of your Paths will be removed and cannot be restored"
+      let cnfrm = confirm(
+        " Are You Sure? You Want to Delete your Account.\n \n All of your Paths will be removed and cannot be restored"
       );
-      if (conf) {
-        let pro = prompt(`Write "CONFIRM" to delete your account`);
-        if (pro === "CONFIRM") {
+      if (cnfrm) {
+        let prmpt = prompt(`Write "CONFIRM" to delete your account`);
+        if (prmpt === "CONFIRM") {
           this.$apollo.mutate({
             mutation: DELETE_ALL_PATH,
             variables: {
@@ -134,7 +134,7 @@ export default {
 .profilePage {
   position: relative;
   z-index: 0;
-  overflow-y: hidden;
+  margin-inline-start: 2rem;
   .popup {
     display: grid;
     grid-template-rows: repeat(3, 1fr);
@@ -204,6 +204,7 @@ export default {
       margin-inline-end: 2rem;
       border-radius: 50%;
       grid-row: 1 / span 2;
+      box-shadow: 0 0 10px grey;
     }
     .info {
       justify-self: start;
@@ -212,16 +213,17 @@ export default {
     .deleteUser {
       color: white;
       font-size: 14px;
-      background: red;
+      background: #d03c38;
       outline: none;
       height: 3rem;
       width: 5rem;
       margin-inline-end: 5rem;
       border-radius: 1rem;
       grid-row: 1 / span 2;
+      font-weight: 600;
+      border: none;
       &:hover {
         background: rgb(196, 44, 44);
-        content: "Sure";
       }
     }
   }

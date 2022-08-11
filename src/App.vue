@@ -8,6 +8,7 @@
 <script>
 import NavBar from "./components/NavBar.vue";
 import NavBarMobile from "@/components/NavBarMobile.vue";
+import { mapState } from "vuex";
 export default {
   components: { NavBar, NavBarMobile },
   name: "MainComponents",
@@ -22,6 +23,12 @@ export default {
     if (screenSize.matches) {
       this.mobileMode = true;
     } else this.mobileMode = false;
+  },
+  mounted() {
+    if (!this.token && !this.$auth0.isLoading) this.$auth0.logout();
+  },
+  computed: {
+    ...mapState["token"],
   },
 };
 </script>

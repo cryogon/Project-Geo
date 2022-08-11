@@ -218,7 +218,8 @@ export default {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    height: 6rem;
+    height: 8rem;
+    padding: 1rem;
     .createPath {
       position: relative;
     }
