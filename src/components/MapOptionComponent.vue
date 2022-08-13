@@ -50,7 +50,7 @@ export default {
         path.latLng[0],
         path.latLng[path.latLng.length - 1]
       );
-      console.log(distance);
+
       this.$store.commit("setLocations", path.latLng);
       this.$store.commit("setMapCenter", path.latLng[0]);
       this.$store.commit("setMarkerVisibility", true);
@@ -136,6 +136,7 @@ export default {
   overflow-y: auto;
   overflow-x: hidden;
   background: white;
+  left: 0;
   #createPath {
     margin-inline-start: 2rem;
     background: linear-gradient(125deg, hotpink, rgb(42, 175, 216));
@@ -148,38 +149,6 @@ export default {
       box-shadow: 0px 0px 0.5rem #000;
     }
   }
-  .pathInputBox {
-    display: grid;
-    grid-template: repeat(3, 1fr) / repeat(2, 1fr);
-    margin-block: 1rem 2rem;
-    place-items: center;
-    .pathNameInput {
-      grid-column: 1 / span 2;
-      height: 2rem;
-      border: hidden;
-      border-block-end: 1px solid black;
-      border-inline-start: 1px solid black;
-      padding: 0.5rem;
-    }
-    .listOfPaths {
-      height: inherit;
-    }
-    span {
-      font-size: smaller;
-      grid-column: 1 / span 2;
-    }
-    button {
-      background: -moz-linear-gradient(125deg, hotpink, rgb(42, 175, 216));
-      background-clip: text;
-      color: transparent;
-      border-radius: 2rem;
-      padding: 0.3rem;
-      &:hover {
-        box-shadow: 0px 0px 0.5rem #000;
-      }
-    }
-  }
-
   .path {
     word-wrap: break-word;
     list-style-position: inside;

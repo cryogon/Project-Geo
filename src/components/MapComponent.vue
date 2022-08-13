@@ -1,6 +1,6 @@
 <template>
   <div class="mapView">
-    <div v-if="!isLocAvailable">
+    <div class="locationError" v-if="!isLocAvailable">
       {{ locErr }}
     </div>
     <div v-if="gettingLocation">
@@ -23,6 +23,7 @@
       :zoomAnimation="true"
       :options="{ zoomControl: false }"
       @click="getCurrLoc"
+      @moveend="moveEnded"
     >
       <l-tile-layer
         class="mapLayer"
@@ -116,9 +117,15 @@ export default {
       iconSize: [20, 20],
       nameOfPath: "",
       createPathMenuVisible: false,
+      myLocationAccessed: false,
     };
   },
   methods: {
+    moveEnded() {
+      this.emitter.emit("mapMoved");
+      this.myLocationAccessed && this.myLocation();
+      return true;
+    },
     getCurrLoc(e) {
       if (this.onCreateMode === true) {
         try {
@@ -134,9 +141,9 @@ export default {
     },
     myLocation() {
       this.$store.commit("setMapCenter", this.currLocation);
-      setTimeout(() => {
-        this.$store.commit("setZoom", 18);
-      }, 400);
+      this.myLocationAccessed = true;
+      this.$store.commit("setZoom", 18);
+      this.myLocationAccessed = false;
     },
     createModeOn() {
       this.createPathMenuVisible = !this.createPathMenuVisible;
@@ -183,12 +190,11 @@ export default {
       },
       (err) => {
         this.isLocAvailable = false;
-        this.locErr = err.message;
+        this.locErr = err.message + "! Please Allow GeoLocation to Use the Map";
         this.gettingLocation = false;
       }
     );
   },
-
   computed: {
     ...mapState([
       "pathName",
@@ -213,6 +219,15 @@ export default {
 .mapView {
   width: 96vw;
   height: inherit;
+  .locationError {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80%;
+    font-size: larger;
+    font-weight: 900;
+    letter-spacing: 1.2px;
+  }
 }
 .black {
   color: black;

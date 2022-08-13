@@ -30,5 +30,6 @@ export default {
   height: 100vh;
   width: 100vw;
   padding-inline-end: 1rem;
+  position: relative;
 }
 </style>
