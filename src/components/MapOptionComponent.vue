@@ -30,12 +30,42 @@ export default {
     };
   },
   methods: {
+    calculateDistance(p1, p2) {
+      const R = 6371e3;
+      const φ1 = (p1[0] * Math.PI) / 180; // φ, λ in radians
+      const φ2 = (p2[0] * Math.PI) / 180;
+      const Δφ = ((p2[0] - p1[0]) * Math.PI) / 180;
+      const Δλ = ((p2[1] - p1[1]) * Math.PI) / 180;
+
+      const a =
+        Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
+        Math.cos(φ1) * Math.cos(φ2) * Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
+      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+      const d = R * c;
+      return d / 1000;
+    },
     setPath({ path }) {
+      let distance = this.calculateDistance(
+        path.latLng[0],
+        path.latLng[path.latLng.length - 1]
+      );
+      console.log(distance);
       this.$store.commit("setLocations", path.latLng);
       this.$store.commit("setMapCenter", path.latLng[0]);
       this.$store.commit("setMarkerVisibility", true);
       setTimeout(() => {
-        this.$store.commit("setZoom", 8);
+        if (distance < 20) {
+          this.$store.commit("setZoom", 16);
+        } else if (distance > 20 && distance < 30) {
+          this.$store.commit("setZoom", 10);
+        } else if (distance > 30 && distance < 100) {
+          this.$store.commit("setZoom", 8);
+        } else if (distance > 100 && distance < 400) {
+          this.$store.commit("setZoom", 6);
+        } else {
+          this.$store.commit("setZoom", 3);
+        }
       }, 300);
     },
     setCreateModeTrue() {

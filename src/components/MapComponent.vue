@@ -135,7 +135,7 @@ export default {
     myLocation() {
       this.$store.commit("setMapCenter", this.currLocation);
       setTimeout(() => {
-        this.$store.commit("setZoom", 16);
+        this.$store.commit("setZoom", 18);
       }, 400);
     },
     createModeOn() {

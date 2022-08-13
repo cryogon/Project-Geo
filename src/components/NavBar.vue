@@ -89,15 +89,6 @@ export default {
       else this.$refs.pathToggle.style.display = "block";
     },
   },
-  created() {
-    setTimeout(() => {
-      if (!this.isAuth) {
-        this.$store.commit("updateToken", "");
-        this.$router.push("/");
-        return;
-      }
-    }, 1);
-  },
 };
 </script>
 <style lang="scss">

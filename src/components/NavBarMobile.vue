@@ -89,15 +89,6 @@ export default {
       }
     },
   },
-  created() {
-    setTimeout(() => {
-      if (!this.isAuth) {
-        this.$store.commit("updateToken", "");
-        this.$router.push("/");
-        return;
-      }
-    }, 1);
-  },
 };
 </script>
 <style lang="scss">

@@ -18,6 +18,15 @@ export default {
     };
   },
   created() {
+    setTimeout(() => {
+      if (!this.isAuth && !this.$auth0.isLoading) {
+        this.$store.commit("updateToken", "");
+        this.$nextTick(() => {
+          this.$auth0.logout({ redirect: window.location.origin });
+        });
+        return;
+      }
+    }, 1);
     this.$store.dispatch("loadToken");
     let screenSize = window.matchMedia("(max-width:35rem)");
     if (screenSize.matches) {
@@ -60,6 +69,7 @@ body {
   height: 100vh;
   overflow-x: hidden;
 }
+
 .container {
   display: grid;
   grid-template-columns: 4vw 80vw;

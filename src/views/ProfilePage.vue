@@ -138,6 +138,9 @@ export default {
   position: relative;
   z-index: 0;
   margin-inline-start: 2rem;
+  height: inherit;
+  width: 92vw;
+  overflow-y: auto;
   .popup {
     display: grid;
     grid-template-rows: repeat(3, 1fr);
@@ -234,7 +237,7 @@ export default {
   .optionBar {
     text-align: center;
     padding-block-start: 1rem;
-    margin-block-start: 1.7rem;
+    margin-block: 1.7rem;
 
     .optionItem {
       font-weight: 900;
@@ -242,7 +245,7 @@ export default {
   }
   .pathContainer {
     overflow-y: auto;
-    height: 23em;
+    height: 20em;
     &::-webkit-scrollbar {
       width: 0.8rem;
     }
