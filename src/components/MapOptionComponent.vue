@@ -27,6 +27,8 @@ export default {
   data() {
     return {
       pathName: "",
+      pathSelected: false,
+      distance: null,
     };
   },
   methods: {
@@ -46,27 +48,15 @@ export default {
       return d / 1000;
     },
     setPath({ path }) {
-      let distance = this.calculateDistance(
+      this.distance = this.calculateDistance(
         path.latLng[0],
         path.latLng[path.latLng.length - 1]
       );
 
       this.$store.commit("setLocations", path.latLng);
       this.$store.commit("setMapCenter", path.latLng[0]);
+      this.pathSelected = true;
       this.$store.commit("setMarkerVisibility", true);
-      setTimeout(() => {
-        if (distance < 20) {
-          this.$store.commit("setZoom", 16);
-        } else if (distance > 20 && distance < 30) {
-          this.$store.commit("setZoom", 10);
-        } else if (distance > 30 && distance < 100) {
-          this.$store.commit("setZoom", 8);
-        } else if (distance > 100 && distance < 400) {
-          this.$store.commit("setZoom", 6);
-        } else {
-          this.$store.commit("setZoom", 3);
-        }
-      }, 300);
     },
     setCreateModeTrue() {
       this.$store.commit("setCreateMode", true);
@@ -117,6 +107,22 @@ export default {
     this.emitter.on("createPath", (name) => {
       this.pathName = name;
       this.createPolyline();
+    });
+    this.emitter.on("mapMoved", () => {
+      if (this.pathSelected === true) {
+        if (this.distance < 20) {
+          this.$store.commit("setZoom", 16);
+        } else if (this.distance > 20 && this.distance < 30) {
+          this.$store.commit("setZoom", 10);
+        } else if (this.distance > 30 && this.distance < 100) {
+          this.$store.commit("setZoom", 8);
+        } else if (this.distance > 100 && this.distance < 400) {
+          this.$store.commit("setZoom", 6);
+        } else {
+          this.$store.commit("setZoom", 3);
+        }
+        this.pathSelected = false;
+      }
     });
   },
   computed: {

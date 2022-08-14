@@ -124,7 +124,6 @@ export default {
     moveEnded() {
       this.emitter.emit("mapMoved");
       this.myLocationAccessed && this.myLocation();
-      return true;
     },
     getCurrLoc(e) {
       if (this.onCreateMode === true) {
@@ -159,7 +158,6 @@ export default {
     createPath() {
       this.emitter.emit("createPath", this.nameOfPath);
       this.$refs.pathDiv.style.display = "none";
-
       this.nameOfPath = "";
     },
     cancelPath() {
