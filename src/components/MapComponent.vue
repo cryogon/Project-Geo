@@ -44,7 +44,7 @@
             class="controlIcons createPath"
             @click="createModeOn"
           />
-          <div class="pathDiv" ref="pathDiv">
+          <div class="displayNone" ref="pathDiv">
             <h2>Create Path</h2>
             <input
               type="text"
@@ -116,7 +116,6 @@ export default {
       isLocAvailable: false,
       iconSize: [20, 20],
       nameOfPath: "",
-      createPathMenuVisible: false,
       myLocationAccessed: false,
     };
   },
@@ -145,23 +144,17 @@ export default {
       this.myLocationAccessed = false;
     },
     createModeOn() {
-      this.createPathMenuVisible = !this.createPathMenuVisible;
-      if (this.createPathMenuVisible) {
-        this.$refs.pathDiv.style.display = "grid";
-        this.emitter.emit("createMode");
-        this.$refs.pathInput.focus();
-      } else {
-        this.$refs.pathDiv.style.display = "none";
-        this.emitter.emit("cancelPath");
-      }
+      this.$refs.pathDiv.classList.add("pathDiv");
+      this.emitter.emit("createMode");
+      this.$refs.pathInput.focus();
     },
     createPath() {
       this.emitter.emit("createPath", this.nameOfPath);
-      this.$refs.pathDiv.style.display = "none";
+      this.$refs.pathDiv.classList.remove("pathDiv");
       this.nameOfPath = "";
     },
     cancelPath() {
-      this.$refs.pathDiv.style.display = "none";
+      this.$refs.pathDiv.classList.remove("pathDiv");
       this.emitter.emit("cancelPath");
     },
     centerUpdated(center) {
@@ -244,8 +237,11 @@ export default {
     .createPath {
       position: relative;
     }
-    .pathDiv {
+    .displayNone {
       display: none;
+    }
+    .pathDiv {
+      display: grid;
       place-items: center;
       width: 15rem;
       height: 12rem;

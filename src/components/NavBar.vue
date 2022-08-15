@@ -33,7 +33,7 @@
         </div>
       </li>
       <li
-        class="space pathMenu pointer"
+        class="space displayNone pointer"
         @click="pathListToggle"
         ref="pathToggle"
       >
@@ -85,8 +85,13 @@ export default {
 
   watch: {
     currRoute(path) {
-      if (path.name != "map") this.$refs.pathToggle.style.display = "none";
-      else this.$refs.pathToggle.style.display = "block";
+      if (path.name != "map") {
+        this.$refs.pathToggle.classList.add("displayNone");
+        this.$refs.pathToggle.classList.remove("pathMenu");
+      } else {
+        this.$refs.pathToggle.classList.add("pathMenu");
+        this.$refs.pathToggle.classList.remove("displayNone");
+      }
     },
   },
 };
@@ -121,7 +126,11 @@ export default {
     .user {
       position: relative;
     }
+    .displayNone {
+      display: none;
+    }
     .pathMenu {
+      display: block;
       background: white;
       padding: 0.7rem 0.8rem;
       transform: scale(1.2);
