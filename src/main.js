@@ -6,6 +6,7 @@ import "leaflet/dist/leaflet.css";
 import { apolloProvider } from "./vue-apollo";
 import { createAuth0 } from "@auth0/auth0-vue";
 import { library } from "@fortawesome/fontawesome-svg-core";
+import mitt from "mitt";
 import {
   faUser,
   faUserAstronaut,
@@ -13,11 +14,24 @@ import {
   faMap,
   faPencil,
   faX,
+  faLocationArrow,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { domain, clientId as client_id, audience } from "../auth_config.json";
-library.add(faUser, faRightToBracket, faUserAstronaut, faMap, faPencil, faX);
-createApp(App)
+library.add(
+  faUser,
+  faRightToBracket,
+  faUserAstronaut,
+  faMap,
+  faPencil,
+  faX,
+  faLocationArrow
+);
+const emitter = mitt();
+
+const app = createApp(App);
+app.config.globalProperties.emitter = emitter;
+app
   .use(store)
   .use(router)
   .use(apolloProvider)

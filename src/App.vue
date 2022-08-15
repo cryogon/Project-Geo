@@ -1,19 +1,43 @@
 <template>
-  <div class="container"></div>
-  <nav-bar />
-  <router-view />
+  <div class="container">
+    <nav-bar-mobile v-if="mobileMode" />
+    <nav-bar v-else />
+    <router-view />
+  </div>
 </template>
 <script>
 import NavBar from "./components/NavBar.vue";
+import NavBarMobile from "@/components/NavBarMobile.vue";
+import { mapState } from "vuex";
 export default {
-  components: { NavBar },
+  components: { NavBar, NavBarMobile },
   name: "MainComponents",
+  data() {
+    return {
+      mobileMode: false,
+    };
+  },
   created() {
-    if (!this.$auth0.isAuthenticated) {
-      localStorage.removeItem("apollo-token");
-      return;
-    }
+    setTimeout(() => {
+      if (!this.isAuth && !this.$auth0.isLoading) {
+        this.$store.commit("updateToken", "");
+        this.$nextTick(() => {
+          this.$auth0.logout({ redirect: window.location.origin });
+        });
+        return;
+      }
+    }, 1);
     this.$store.dispatch("loadToken");
+    let screenSize = window.matchMedia("(max-width:35rem)");
+    if (screenSize.matches) {
+      this.mobileMode = true;
+    } else this.mobileMode = false;
+  },
+  mounted() {
+    if (!this.token && !this.$auth0.isLoading) this.$auth0.logout();
+  },
+  computed: {
+    ...mapState["token"],
   },
 };
 </script>
@@ -29,9 +53,14 @@ $secondaryBackgroundColor: rgb(219, 198, 198);
   box-sizing: border-box;
 }
 body {
+  overflow-y: hidden;
   button {
     cursor: pointer;
   }
+  background: -moz-linear-gradient(
+    $primaryBackgroundColor,
+    $secondaryBackgroundColor
+  );
   background: linear-gradient(
     $primaryBackgroundColor,
     $secondaryBackgroundColor
@@ -40,11 +69,17 @@ body {
   height: 100vh;
   overflow-x: hidden;
 }
+
 .container {
-  width: 100%;
-  height: 100%;
-  .routerView {
-    z-index: -1;
+  display: grid;
+  grid-template-columns: 4vw 80vw;
+  width: 100vw;
+  height: 100vh;
+}
+@media screen and (max-width: 35rem) {
+  .container {
+    display: flex;
+    flex-direction: column;
   }
 }
 </style>

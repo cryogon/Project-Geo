@@ -29,3 +29,24 @@ export const UPDATE_PATH = gql`
     }
   }
 `;
+export const DELETE_PATH = gql`
+  mutation deletePath($path: String!) {
+    delete_paths(where: { path_name: { _eq: $path } }) {
+      affected_rows
+    }
+  }
+`;
+export const DELETE_ALL_PATH = gql`
+  mutation deletePath($id: String!) {
+    delete_paths(where: { auth_id: { _eq: $id } }) {
+      affected_rows
+    }
+  }
+`;
+export const DELETE_USER = gql`
+  mutation deleteUser($id: String!) {
+    delete_users(where: { auth_id: { _eq: $id } }) {
+      affected_rows
+    }
+  }
+`;

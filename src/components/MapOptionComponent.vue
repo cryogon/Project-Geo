@@ -1,23 +1,5 @@
 <template>
   <div class="options">
-    <button @click="setCreateModeTrue" v-if="!onCreateMode" id="createPath">
-      createPath
-    </button>
-    <div class="pathInputBox" v-if="onCreateMode">
-      <input
-        class="pathNameInput"
-        type="text"
-        v-model="pathName"
-        placeholder="Enter Path Name"
-      />
-      <button v-if="onCreateMode" @click="createPolyline">Create</button>
-      <button v-if="onCreateMode" @click="cancel">Cancel</button>
-      <span
-        >note:Give path name and mark the path on the map first before clicking
-        on create path</span
-      >
-    </div>
-
     <div class="listOfPaths" v-cloak>
       <ol>
         <li
@@ -45,14 +27,36 @@ export default {
   data() {
     return {
       pathName: "",
+      pathSelected: false,
+      distance: null,
     };
   },
   methods: {
-    setPath(path) {
-      this.$store.commit("setLocations", path.path.latLng);
-      this.$store.commit("setPathLoc", path.path.latLng[0]);
+    calculateDistance(p1, p2) {
+      const R = 6371e3;
+      const φ1 = (p1[0] * Math.PI) / 180; // φ, λ in radians
+      const φ2 = (p2[0] * Math.PI) / 180;
+      const Δφ = ((p2[0] - p1[0]) * Math.PI) / 180;
+      const Δλ = ((p2[1] - p1[1]) * Math.PI) / 180;
+
+      const a =
+        Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
+        Math.cos(φ1) * Math.cos(φ2) * Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
+      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+      const d = R * c;
+      return d / 1000;
+    },
+    setPath({ path }) {
+      this.distance = this.calculateDistance(
+        path.latLng[0],
+        path.latLng[path.latLng.length - 1]
+      );
+
+      this.$store.commit("setLocations", path.latLng);
+      this.$store.commit("setMapCenter", path.latLng[0]);
+      this.pathSelected = true;
       this.$store.commit("setMarkerVisibility", true);
-      this.$store.commit("setZoom", 16);
     },
     setCreateModeTrue() {
       this.$store.commit("setCreateMode", true);
@@ -75,7 +79,9 @@ export default {
           this.$store.commit("setLocations", []);
           this.$apollo.queries.paths.refetch();
         } else {
-          alert("Please enter a valid path");
+          alert(
+            "Please select path on the map first before hitting create button"
+          );
         }
       } catch (err) {
         console.log(err);
@@ -91,6 +97,34 @@ export default {
   beforeMount() {
     this.$apollo.queries.paths.refetch();
   },
+  created() {
+    this.emitter.on("createMode", () => {
+      this.setCreateModeTrue();
+    });
+    this.emitter.on("cancelPath", () => {
+      this.cancel();
+    });
+    this.emitter.on("createPath", (name) => {
+      this.pathName = name;
+      this.createPolyline();
+    });
+    this.emitter.on("mapMoved", () => {
+      if (this.pathSelected === true) {
+        if (this.distance < 20) {
+          this.$store.commit("setZoom", 16);
+        } else if (this.distance > 20 && this.distance < 30) {
+          this.$store.commit("setZoom", 10);
+        } else if (this.distance > 30 && this.distance < 100) {
+          this.$store.commit("setZoom", 8);
+        } else if (this.distance > 100 && this.distance < 400) {
+          this.$store.commit("setZoom", 6);
+        } else {
+          this.$store.commit("setZoom", 3);
+        }
+        this.pathSelected = false;
+      }
+    });
+  },
   computed: {
     ...mapState(["locations", "onCreateMode"]),
   },
@@ -101,10 +135,14 @@ export default {
   display: none;
 }
 .options {
+  position: absolute;
+  z-index: 999;
   width: 15vw;
   height: inherit;
   overflow-y: auto;
   overflow-x: hidden;
+  background: white;
+  left: 0;
   #createPath {
     margin-inline-start: 2rem;
     background: linear-gradient(125deg, hotpink, rgb(42, 175, 216));
@@ -117,38 +155,6 @@ export default {
       box-shadow: 0px 0px 0.5rem #000;
     }
   }
-  .pathInputBox {
-    display: grid;
-    grid-template: repeat(3, 1fr) / repeat(2, 1fr);
-    margin-block: 1rem 2rem;
-    place-items: center;
-    .pathNameInput {
-      grid-column: 1 / span 2;
-      height: 2rem;
-      border: hidden;
-      border-block-end: 1px solid black;
-      border-inline-start: 1px solid black;
-      padding: 0.5rem;
-    }
-    .listOfPaths {
-      height: inherit;
-    }
-    span {
-      font-size: smaller;
-      grid-column: 1 / span 2;
-    }
-    button {
-      background: -moz-linear-gradient(125deg, hotpink, rgb(42, 175, 216));
-      background-clip: text;
-      color: transparent;
-      border-radius: 2rem;
-      padding: 0.3rem;
-      &:hover {
-        box-shadow: 0px 0px 0.5rem #000;
-      }
-    }
-  }
-
   .path {
     word-wrap: break-word;
     list-style-position: inside;
@@ -162,6 +168,14 @@ export default {
     &::marker {
       color: hotpink;
     }
+  }
+}
+@media screen and (max-width: 35rem) {
+  .options {
+    width: 10rem;
+    height: 20rem;
+    border-radius: 1rem;
+    right: 2rem;
   }
 }
 </style>

@@ -1,11 +1,11 @@
 <template>
-  <HomeView />
+  <home-component />
 </template>
 <script>
-import HomeView from "@/components/HomeComponent.vue";
+import HomeComponent from "@/components/HomeComponent.vue";
 export default {
   components: {
-    HomeView,
+    HomeComponent,
   },
 };
 </script>

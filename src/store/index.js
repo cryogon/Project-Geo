@@ -4,7 +4,7 @@ export default createStore({
     token: "",
     currUser: "",
     onCreateMode: false,
-    pathLocation: [],
+    mapCenter: [],
     locations: [],
     isPathMarkerVisible: false,
     mapZoom: 12,
@@ -28,8 +28,8 @@ export default createStore({
     setLocations(state, val) {
       state.locations = val;
     },
-    setPathLoc(state, val) {
-      state.pathLocation = val;
+    setMapCenter(state, val) {
+      state.mapCenter = val;
     },
     setMarkerVisibility(state, value) {
       state.isPathMarkerVisible = value;
