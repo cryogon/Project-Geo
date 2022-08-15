@@ -18,11 +18,15 @@
           />
         </span>
         <div class="dropDownMenu">
-          <span @click="profile" ref="profileOption">
+          <span
+            @click="profile"
+            :class="{ active: isProfileActive }"
+            ref="profileOption"
+          >
             <font-awesome-icon icon="user-astronaut" class="icon" />
             Profile</span
           >
-          <span @click="map" ref="mapOption">
+          <span @click="map" :class="{ active: isMapActive }" ref="mapOption">
             <font-awesome-icon icon="map" class="icon" />
             Map</span
           >
@@ -33,7 +37,8 @@
         </div>
       </li>
       <li
-        class="space displayNone pointer"
+        class="space pointer"
+        :class="{ pathMenu: onMap, hidden: isHidden }"
         @click="pathListToggle"
         ref="pathToggle"
       >
@@ -54,24 +59,28 @@ export default {
       isAuth: this.$auth0.isAuthenticated,
       showPathMenu: false,
       currRoute: this.$router.currentRoute,
+      onMap: false,
+      isHidden: false,
+      isMapActive: false,
+      isProfileActive: false,
     };
   },
   methods: {
     logout() {
       this.$auth0.logout({ returnTo: window.location.origin });
-      this.$refs.profileOption.classList.remove("active");
-      this.$refs.mapOption.classList.remove("active");
+      this.isProfileActive = false;
+      this.isMapActive = false;
       localStorage.removeItem("apollo-token");
     },
     profile() {
       this.$router.push("/profile");
-      this.$refs.profileOption.classList.add("active");
-      this.$refs.mapOption.classList.remove("active");
+      this.isProfileActive = true;
+      this.isMapActive = false;
     },
     map() {
       this.$router.push("/map");
-      this.$refs.profileOption.classList.remove("active");
-      this.$refs.mapOption.classList.add("active");
+      this.isProfileActive = false;
+      this.isMapActive = true;
     },
     pathListToggle() {
       this.showPathMenu = !this.showPathMenu;
@@ -86,11 +95,11 @@ export default {
   watch: {
     currRoute(path) {
       if (path.name != "map") {
-        this.$refs.pathToggle.classList.add("displayNone");
-        this.$refs.pathToggle.classList.remove("pathMenu");
+        this.onMap = false;
+        this.isHidden = true;
       } else {
-        this.$refs.pathToggle.classList.add("pathMenu");
-        this.$refs.pathToggle.classList.remove("displayNone");
+        this.onMap = true;
+        this.isHidden = false;
       }
     },
   },
@@ -126,7 +135,7 @@ export default {
     .user {
       position: relative;
     }
-    .displayNone {
+    .hidden {
       display: none;
     }
     .pathMenu {

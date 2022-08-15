@@ -44,7 +44,7 @@
             class="controlIcons createPath"
             @click="createModeOn"
           />
-          <div class="displayNone" ref="pathDiv">
+          <div class="hidden" :class="{ pathDiv: isPathAvail }" ref="pathDiv">
             <h2>Create Path</h2>
             <input
               type="text"
@@ -117,6 +117,7 @@ export default {
       iconSize: [20, 20],
       nameOfPath: "",
       myLocationAccessed: false,
+      isPathAvail: null,
     };
   },
   methods: {
@@ -144,17 +145,17 @@ export default {
       this.myLocationAccessed = false;
     },
     createModeOn() {
-      this.$refs.pathDiv.classList.add("pathDiv");
+      this.isPathAvail = true;
       this.emitter.emit("createMode");
       this.$refs.pathInput.focus();
     },
     createPath() {
       this.emitter.emit("createPath", this.nameOfPath);
-      this.$refs.pathDiv.classList.remove("pathDiv");
+      this.isPathAvail = false;
       this.nameOfPath = "";
     },
     cancelPath() {
-      this.$refs.pathDiv.classList.remove("pathDiv");
+      this.isPathAvail = false;
       this.emitter.emit("cancelPath");
     },
     centerUpdated(center) {
@@ -237,7 +238,7 @@ export default {
     .createPath {
       position: relative;
     }
-    .displayNone {
+    .hidden {
       display: none;
     }
     .pathDiv {

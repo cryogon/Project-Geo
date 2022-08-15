@@ -1,5 +1,9 @@
 <template>
-  <nav class="mobileNav" ref="navbar">
+  <nav
+    class="mobileNav"
+    :class="{ MapColorScheme: onMap, InitialNavColorScheme: !onMap }"
+    ref="navbar"
+  >
     <h2 class="appName">GEO</h2>
     <ul>
       <li class="list">
@@ -16,22 +20,31 @@
           />
         </span>
         <div class="dropDownMenu pointer" ref="dropDown">
-          <span @click="profile" ref="profileOption">
+          <span
+            @click="profile"
+            :class="{ active: isProfileActive }"
+            ref="profileOption"
+          >
             <font-awesome-icon icon="user-astronaut" class="icon" />
             Profile</span
           >
-          <span @click="map" ref="mapOption">
+          <span @click="map" :class="{ active: isMapActive }" ref="mapOption">
             <font-awesome-icon icon="map" class="icon" />
             Map</span
           >
           <span @click="logout" ref="logoutOption">
-            <font-awesome-icon icon="right-to-bracket" class="icon pointer" />
+            <font-awesome-icon icon="right-to-bracket" class="icon" />
             Logout</span
           >
         </div>
       </li>
 
-      <li class="pathButton pointer" @click="pathListToggle" ref="pathToggle">
+      <li
+        class="pointer pathButton"
+        :class="{ hidden: isHidden }"
+        @click="pathListToggle"
+        ref="pathToggle"
+      >
         <font-awesome-icon icon="map" />
       </li>
     </ul>
@@ -49,24 +62,28 @@ export default {
       isAuth: this.$auth0.isAuthenticated,
       showPathMenu: false,
       currRoute: this.$router.currentRoute,
+      isHidden: null,
+      onMap: null,
+      isProfileActive: null,
+      isMapActive: null,
     };
   },
   methods: {
     logout() {
       this.$auth0.logout({ returnTo: window.location.origin });
-      this.$refs.profileOption.classList.remove("active");
-      this.$refs.mapOption.classList.remove("active");
+      this.isProfileActive = false;
+      this.isMapActive = false;
       localStorage.removeItem("apollo-token");
     },
     profile() {
       this.$router.push("/profile");
-      this.$refs.profileOption.classList.add("active");
-      this.$refs.mapOption.classList.remove("active");
+      this.isProfileActive = true;
+      this.isMapActive = false;
     },
     map() {
       this.$router.push("/map");
-      this.$refs.profileOption.classList.remove("active");
-      this.$refs.mapOption.classList.add("active");
+      this.isProfileActive = false;
+      this.isMapActive = true;
     },
     pathListToggle() {
       this.showPathMenu = !this.showPathMenu;
@@ -80,18 +97,23 @@ export default {
   watch: {
     currRoute(path) {
       if (path.name != "map") {
-        this.$refs.pathToggle.style.display = "none";
-        this.$refs.navbar.style.background = "inherit";
+        this.isHidden = true;
+        this.onMap = false;
       } else {
-        this.$refs.pathToggle.style.display = "block";
-        this.$refs.navbar.style.background =
-          "linear-gradient(30deg, #f2efe9 50%, #bddab1 100%)";
+        this.isHidden = false;
+        this.onMap = true;
       }
     },
   },
 };
 </script>
 <style lang="scss">
+.MapColorScheme {
+  background: linear-gradient(30deg, #f2efe9 50%, #bddab1 100%);
+}
+.InitialNavColorScheme {
+  background: inherit;
+}
 .mobileNav {
   display: flex;
   justify-content: space-between;
@@ -100,7 +122,6 @@ export default {
   width: 100%;
   height: 4rem;
   z-index: 9999;
-  background: linear-gradient(30deg, #f2efe9, #bddab1);
   .pointer {
     cursor: pointer;
   }
@@ -113,6 +134,9 @@ export default {
   .active {
     background: wheat;
     color: black;
+  }
+  .hidden {
+    display: none;
   }
   ul {
     width: 10rem;
