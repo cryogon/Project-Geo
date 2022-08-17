@@ -175,7 +175,7 @@ export default {
     width: 10rem;
     height: 20rem;
     border-radius: 1rem;
-    right: 2rem;
+    left: 12rem;
   }
 }
 </style>

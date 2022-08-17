@@ -15,18 +15,10 @@ export default {
   data() {
     return {
       mobileMode: false,
+      isAuth: this.$auth0.isAuthenticated,
     };
   },
   created() {
-    setTimeout(() => {
-      if (!this.isAuth && !this.$auth0.isLoading) {
-        this.$store.commit("updateToken", "");
-        this.$nextTick(() => {
-          this.$auth0.logout({ redirect: window.location.origin });
-        });
-        return;
-      }
-    }, 1);
     this.$store.dispatch("loadToken");
     let screenSize = window.matchMedia("(max-width:35rem)");
     if (screenSize.matches) {
@@ -34,7 +26,9 @@ export default {
     } else this.mobileMode = false;
   },
   mounted() {
-    if (!this.token && !this.$auth0.isLoading) this.$auth0.logout();
+    if (!this.isAuth) {
+      this.$router.push("/");
+    }
   },
   computed: {
     ...mapState["token"],

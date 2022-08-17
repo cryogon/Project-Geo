@@ -5,7 +5,7 @@ import store from "../store";
 const routes = [
   {
     path: "/",
-    name: "login",
+    name: "home",
     component: HomeView,
   },
   {
@@ -34,7 +34,7 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
   const tokenPresent = store.getters.storeToken;
   if (to.meta?.loginRequired && !tokenPresent) {
-    next({ name: "login" });
+    next({ name: "home" });
   } else if (!to.meta?.loginRequired && tokenPresent) {
     next({ name: "map" });
   } else {
