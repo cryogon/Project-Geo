@@ -4,10 +4,18 @@
     :class="{ MapColorScheme: onMap, InitialNavColorScheme: !onMap }"
     ref="navbar"
   >
-    <h2 class="appName">GEO</h2>
+    <img src="@/assets/logo.svg" alt="GEO" class="logo" />
     <ul>
       <li class="list">
         <login-button />
+      </li>
+      <li
+        class="pointer pathButton"
+        :class="{ hidden: isHidden }"
+        @click="pathListToggle"
+        ref="pathToggle"
+      >
+        <font-awesome-icon icon="map" />
       </li>
       <li v-if="isAuth && user" class="list user space">
         <span class="userInfoMobile">
@@ -37,15 +45,6 @@
             Logout</span
           >
         </div>
-      </li>
-
-      <li
-        class="pointer pathButton"
-        :class="{ hidden: isHidden }"
-        @click="pathListToggle"
-        ref="pathToggle"
-      >
-        <font-awesome-icon icon="map" />
       </li>
     </ul>
   </nav>
@@ -125,12 +124,10 @@ export default {
   .pointer {
     cursor: pointer;
   }
-  .appName {
-    margin-inline-start: 1rem;
-    background: linear-gradient(45deg, #69c3ed, yellowgreen);
-    background-clip: text;
-    color: transparent;
+  .logo {
+    width: 4.5rem;
   }
+
   .active {
     background: wheat;
     color: black;

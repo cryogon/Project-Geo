@@ -2,7 +2,7 @@
   <nav class="navBar">
     <ul class="unorderedList">
       <li class="list">
-        <h1 class="appName">Geo</h1>
+        <img src="@/assets/logo.svg" alt="GEO" class="logo" />
       </li>
       <li class="list">
         <login-button />
@@ -115,6 +115,9 @@ export default {
   background: linear-gradient(white, rgb(219, 198, 198));
   .pointer {
     cursor: pointer;
+  }
+  .logo {
+    width: 4.5rem;
   }
   .unorderedList {
     display: flex;
@@ -232,12 +235,6 @@ export default {
         }
       }
     }
-  }
-  .appName {
-    text-transform: uppercase;
-    background: linear-gradient(45deg, #69c3ed, yellowgreen);
-    background-clip: text;
-    color: transparent;
   }
 }
 </style>
