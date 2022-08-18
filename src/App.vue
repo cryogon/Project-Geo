@@ -8,7 +8,6 @@
 <script>
 import NavBar from "./components/NavBar.vue";
 import NavBarMobile from "@/components/NavBarMobile.vue";
-import { mapState } from "vuex";
 export default {
   components: { NavBar, NavBarMobile },
   name: "MainComponents",
@@ -26,12 +25,11 @@ export default {
     } else this.mobileMode = false;
   },
   mounted() {
-    if (!this.isAuth) {
-      this.$router.push("/");
-    }
-  },
-  computed: {
-    ...mapState["token"],
+    setTimeout(() => {
+      if (!this.isAuth) {
+        this.$store.commit("updateToken", "");
+      }
+    }, 1);
   },
 };
 </script>

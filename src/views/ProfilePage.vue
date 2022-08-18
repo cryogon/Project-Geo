@@ -124,7 +124,7 @@ export default {
             });
           });
           this.$nextTick(() => {
-            localStorage.setItem("apollo-token", "");
+            this.$store.commit("updateToken", "");
             this.$auth0.logout();
           });
         }
