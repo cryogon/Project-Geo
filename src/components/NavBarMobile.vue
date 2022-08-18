@@ -72,7 +72,7 @@ export default {
       this.$auth0.logout({ returnTo: window.location.origin });
       this.isProfileActive = false;
       this.isMapActive = false;
-      localStorage.removeItem("apollo-token");
+      this.$store.commit("updateToken", "");
     },
     profile() {
       this.$router.push("/profile");
