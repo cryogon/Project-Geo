@@ -31,21 +31,22 @@ export default {
 };
 </script>
 <style lang="scss">
-$btn-size: 3rem;
+$btn-size: 3.3rem;
 .loginButton {
   margin-block-start: 1rem;
   width: $btn-size;
   height: $btn-size;
-  background: rgb(200, 255, 205);
-  border-style: solid;
+  background: transparent;
+  letter-spacing: 1px;
+  border: solid rgb(150, 150, 150);
   border-radius: 5rem;
-  transition: ease-out 0.3s;
-  outline: none;
-  perspective: 10px;
+  -webkit-transition: 0.2s;
+  transition: 0.2s;
+  outline: 0;
   &:hover {
     box-shadow: inset $btn-size 0 0 0 #51e368;
+    transform: scale(1.1);
     color: white;
-    letter-spacing: 1px;
   }
 }
 </style>
