@@ -36,16 +36,15 @@ $btn-size: 3rem;
   margin-block-start: 1rem;
   width: $btn-size;
   height: $btn-size;
-  background: transparent;
+  background: rgb(200, 255, 205);
   border-style: solid;
   border-radius: 5rem;
   transition: ease-out 0.3s;
   outline: none;
   perspective: 10px;
   &:hover {
-    box-shadow: inset $btn-size 0 0 0 rgb(199, 106, 106);
+    box-shadow: inset $btn-size 0 0 0 #51e368;
     color: white;
-    font-weight: 600;
     letter-spacing: 1px;
   }
 }

@@ -7,7 +7,6 @@ export default createStore({
     mapCenter: [],
     locations: [],
     isPathMarkerVisible: false,
-    mapZoom: 12,
   },
   getters: {
     storeToken(state) {
@@ -18,9 +17,6 @@ export default createStore({
     updateToken(state, val) {
       state.token = val;
       localStorage.setItem("apollo-token", state.token);
-    },
-    setZoom(state, zoomLevel) {
-      state.mapZoom = zoomLevel;
     },
     setCreateMode(state, val) {
       state.onCreateMode = val;

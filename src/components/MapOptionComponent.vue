@@ -29,34 +29,15 @@ export default {
       pathName: "",
       pathSelected: false,
       distance: null,
+      zoom: null,
     };
   },
   methods: {
-    calculateDistance(p1, p2) {
-      const R = 6371e3;
-      const φ1 = (p1[0] * Math.PI) / 180; // φ, λ in radians
-      const φ2 = (p2[0] * Math.PI) / 180;
-      const Δφ = ((p2[0] - p1[0]) * Math.PI) / 180;
-      const Δλ = ((p2[1] - p1[1]) * Math.PI) / 180;
-
-      const a =
-        Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
-        Math.cos(φ1) * Math.cos(φ2) * Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
-      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-
-      const d = R * c;
-      return d / 1000;
-    },
     setPath({ path }) {
-      this.distance = this.calculateDistance(
-        path.latLng[0],
-        path.latLng[path.latLng.length - 1]
-      );
-
       this.$store.commit("setLocations", path.latLng);
-      this.$store.commit("setMapCenter", path.latLng[0]);
-      this.pathSelected = true;
+      this.emitter.emit("pathSelected", path);
       this.$store.commit("setMarkerVisibility", true);
+      this.pathSelected = true;
     },
     setCreateModeTrue() {
       this.$store.commit("setCreateMode", true);
@@ -108,22 +89,6 @@ export default {
       this.pathName = name;
       this.createPolyline();
     });
-    this.emitter.on("mapMoved", () => {
-      if (this.pathSelected === true) {
-        if (this.distance < 20) {
-          this.$store.commit("setZoom", 16);
-        } else if (this.distance > 20 && this.distance < 30) {
-          this.$store.commit("setZoom", 10);
-        } else if (this.distance > 30 && this.distance < 100) {
-          this.$store.commit("setZoom", 8);
-        } else if (this.distance > 100 && this.distance < 400) {
-          this.$store.commit("setZoom", 6);
-        } else {
-          this.$store.commit("setZoom", 3);
-        }
-        this.pathSelected = false;
-      }
-    });
   },
   computed: {
     ...mapState(["locations", "onCreateMode"]),
@@ -143,6 +108,18 @@ export default {
   overflow-x: hidden;
   background: white;
   left: 0;
+  &::-webkit-scrollbar {
+    width: 0.2rem;
+  }
+  &::-webkit-scrollbar-track {
+    background: darkgray;
+    border-radius: 2rem;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: grey;
+    border-radius: 2rem;
+  }
+
   #createPath {
     margin-inline-start: 2rem;
     background: linear-gradient(125deg, hotpink, rgb(42, 175, 216));

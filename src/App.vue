@@ -15,21 +15,23 @@ export default {
     return {
       mobileMode: false,
       isAuth: this.$auth0.isAuthenticated,
+      screenSize: window.matchMedia("(max-width:35rem)"),
+      isLoading: this.$auth0.isLoading,
     };
   },
   created() {
     this.$store.dispatch("loadToken");
-    let screenSize = window.matchMedia("(max-width:35rem)");
-    if (screenSize.matches) {
+    if (this.screenSize.matches) {
       this.mobileMode = true;
     } else this.mobileMode = false;
   },
-  mounted() {
-    setTimeout(() => {
+
+  watch: {
+    isLoading() {
       if (!this.isAuth) {
         this.$store.commit("updateToken", "");
       }
-    }, 1);
+    },
   },
 };
 </script>

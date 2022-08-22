@@ -23,7 +23,6 @@
       :zoomAnimation="true"
       :options="{ zoomControl: false }"
       @click="getCurrLoc"
-      @moveend="moveEnded"
     >
       <l-tile-layer
         class="mapLayer"
@@ -118,13 +117,11 @@ export default {
       nameOfPath: "",
       myLocationAccessed: false,
       isPathAvail: null,
+      zoom: 12,
+      distance: null,
     };
   },
   methods: {
-    moveEnded() {
-      this.emitter.emit("mapMoved");
-      this.myLocationAccessed && this.myLocation();
-    },
     getCurrLoc(e) {
       if (this.onCreateMode === true) {
         try {
@@ -139,10 +136,7 @@ export default {
       }
     },
     myLocation() {
-      this.$store.commit("setMapCenter", this.currLocation);
-      this.myLocationAccessed = true;
-      this.$store.commit("setZoom", 18);
-      this.myLocationAccessed = false;
+      this.$refs.map?.leafletObject.flyTo(this.currLocation, 18);
     },
     createModeOn() {
       this.isPathAvail = true;
@@ -160,6 +154,21 @@ export default {
     },
     centerUpdated(center) {
       this.$store.commit("setMapCenter", [center.lat, center.lng]);
+    },
+    calculateDistance(p1, p2) {
+      const R = 6371e3;
+      const φ1 = (p1[0] * Math.PI) / 180; // φ, λ in radians
+      const φ2 = (p2[0] * Math.PI) / 180;
+      const Δφ = ((p2[0] - p1[0]) * Math.PI) / 180;
+      const Δλ = ((p2[1] - p1[1]) * Math.PI) / 180;
+
+      const a =
+        Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
+        Math.cos(φ1) * Math.cos(φ2) * Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
+      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+      const d = R * c;
+      return d / 1000;
     },
   },
   created() {
@@ -187,6 +196,29 @@ export default {
       }
     );
   },
+  mounted() {
+    this.emitter.on("pathSelected", (path) => {
+      let tempZoom;
+      this.distance = this.calculateDistance(
+        path.latLng[0],
+        path.latLng[path.latLng.length - 1]
+      );
+      if (this.distance < 20) {
+        tempZoom = 16;
+      } else if (this.distance > 20 && this.distance < 30) {
+        tempZoom = 10;
+      } else if (this.distance > 30 && this.distance < 100) {
+        tempZoom = 8;
+      } else if (this.distance > 100 && this.distance < 400) {
+        tempZoom = 6;
+      } else {
+        tempZoom = 3;
+      }
+      this.$nextTick(() => {
+        this.$refs.map?.leafletObject.setView(path.latLng[0], tempZoom);
+      });
+    });
+  },
   computed: {
     ...mapState([
       "pathName",
@@ -194,16 +226,7 @@ export default {
       "mapCenter",
       "onCreateMode",
       "isPathMarkerVisible",
-      "mapZoom",
     ]),
-    zoom: {
-      set(zoom) {
-        this.$store.commit("setZoom", zoom);
-      },
-      get() {
-        return this.mapZoom;
-      },
-    },
   },
 };
 </script>

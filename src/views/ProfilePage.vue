@@ -230,7 +230,10 @@ export default {
       border: none;
       box-shadow: 4px 4px 10px #7b0101;
       &:hover {
-        background: rgb(196, 44, 44);
+        background: rgb(193, 19, 19);
+      }
+      &:active {
+        box-shadow: inset 4px 4px 10px #7b0101;
       }
     }
   }
