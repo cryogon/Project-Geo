@@ -28,7 +28,7 @@ export default {
 };
 </script>
 <style lang="scss">
-@import "@/assets/style.scss";
+@import "@/assets/variable.scss";
 .home {
   height: 100vh;
   width: 100vw;

@@ -39,7 +39,7 @@ export default {
 </script>
 <style lang="scss">
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@200&family=Montserrat:wght@200&display=swap");
-@import "@/assets/style.scss";
+@import "@/assets/variable.scss";
 
 * {
   font-family: "Inter", sans-serif;

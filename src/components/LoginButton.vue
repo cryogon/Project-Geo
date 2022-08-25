@@ -30,7 +30,8 @@ export default {
 };
 </script>
 <style lang="scss">
-@import "@/assets/style.scss";
+@import "@/assets/variable.scss";
+
 .loginButton {
   margin-block-start: 1rem;
   width: $btn-size;
