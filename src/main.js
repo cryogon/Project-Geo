@@ -41,7 +41,7 @@ app
       client_id,
       redirect_uri: window.location.origin,
       audience,
-      cacheLocation: "localstorage",
+      // cacheLocation: "localstorage",
     })
   )
   .component("font-awesome-icon", FontAwesomeIcon)

@@ -180,7 +180,7 @@ export default {
     this.gettingLocation = true;
     navigator.geolocation.getCurrentPosition(
       (pos) => {
-        this.$store.commit("setZoom", 8);
+        this.zoom = 8;
         this.currLocation = [pos.coords.latitude, pos.coords.longitude];
         this.$store.commit("setMapCenter", [
           pos.coords.latitude,
@@ -273,7 +273,7 @@ export default {
       grid-template-rows: 1fr 1fr 1fr;
       background: white;
       position: absolute;
-      right: 3rem;
+      right: 4rem;
       top: 0;
       h2 {
         grid-column: 1 / span 2;

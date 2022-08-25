@@ -12,7 +12,6 @@ export default {
       token: null,
     };
   },
-
   methods: {
     async login() {
       try {
@@ -31,7 +30,7 @@ export default {
 };
 </script>
 <style lang="scss">
-$btn-size: 3.3rem;
+@import "@/assets/style.scss";
 .loginButton {
   margin-block-start: 1rem;
   width: $btn-size;

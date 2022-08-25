@@ -27,9 +27,11 @@ export default {
   },
 
   watch: {
-    isLoading() {
+    async isLoading() {
       if (!this.isAuth) {
         this.$store.commit("updateToken", "");
+      } else {
+        await this.$auth0.checkSession();
       }
     },
   },
@@ -37,8 +39,8 @@ export default {
 </script>
 <style lang="scss">
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@200&family=Montserrat:wght@200&display=swap");
-$primaryBackgroundColor: white;
-$secondaryBackgroundColor: rgb(219, 198, 198);
+@import "@/assets/style.scss";
+
 * {
   font-family: "Inter", sans-serif;
   color: black;

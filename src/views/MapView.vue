@@ -28,7 +28,7 @@ export default {
 };
 </script>
 <style lang="scss">
-$animOffset: -10rem;
+@import "@/assets/style.scss";
 .home {
   height: 100vh;
   width: 100vw;
