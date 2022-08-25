@@ -12,7 +12,6 @@ export default {
       token: null,
     };
   },
-
   methods: {
     async login() {
       try {
@@ -31,22 +30,23 @@ export default {
 };
 </script>
 <style lang="scss">
-$btn-size: 3rem;
+@import "@/assets/variable.scss";
+
 .loginButton {
   margin-block-start: 1rem;
   width: $btn-size;
   height: $btn-size;
   background: transparent;
-  border-style: solid;
+  letter-spacing: 1px;
+  border: solid rgb(150, 150, 150);
   border-radius: 5rem;
-  transition: ease-out 0.3s;
-  outline: none;
-  perspective: 10px;
+  -webkit-transition: 0.2s;
+  transition: 0.2s;
+  outline: 0;
   &:hover {
-    box-shadow: inset $btn-size 0 0 0 rgb(199, 106, 106);
+    box-shadow: inset $btn-size 0 0 0 #51e368;
+    transform: scale(1.1);
     color: white;
-    font-weight: 600;
-    letter-spacing: 1px;
   }
 }
 </style>

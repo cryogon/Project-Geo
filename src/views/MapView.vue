@@ -1,6 +1,8 @@
 <template>
   <div class="home">
-    <map-option-component v-show="showPaths" />
+    <transition name="map-option">
+      <map-option-component v-show="showPaths" />
+    </transition>
     <map-component />
   </div>
 </template>
@@ -26,10 +28,37 @@ export default {
 };
 </script>
 <style lang="scss">
+@import "@/assets/variable.scss";
 .home {
   height: 100vh;
   width: 100vw;
   padding-inline-end: 1rem;
   position: relative;
+  .map-option-enter-active {
+    animation: slideout linear 0.2s;
+  }
+  .map-option-leave-active {
+    animation: slidein linear 0.2s;
+  }
+  .map-option-enter-from {
+    @keyframes slideout {
+      from {
+        left: $animOffset;
+      }
+      to {
+        left: 0rem;
+      }
+    }
+  }
+  .map-option-leave-to {
+    @keyframes slidein {
+      from {
+        left: 0rem;
+      }
+      to {
+        left: $animOffset;
+      }
+    }
+  }
 }
 </style>

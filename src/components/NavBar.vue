@@ -97,9 +97,13 @@ export default {
       if (path.name != "map") {
         this.onMap = false;
         this.isHidden = true;
+        this.isProfileActive = true;
+        this.isMapActive = false;
       } else {
         this.onMap = true;
         this.isHidden = false;
+        this.isProfileActive = false;
+        this.isMapActive = true;
       }
     },
   },
@@ -151,6 +155,7 @@ export default {
       transform: scale(1.2);
       border-radius: 2rem;
       box-shadow: 0 0 5px grey;
+
       &:hover {
         background: rgb(209, 198, 198);
         &::after {
@@ -169,6 +174,7 @@ export default {
         display: flex;
         justify-content: center;
         column-gap: 1rem;
+        transition: 0.2s;
         &:hover ~ .dropDownMenu,
         &:focus ~ .dropDownMenu {
           display: flex;
@@ -187,18 +193,20 @@ export default {
         position: absolute;
         background: white;
         top: 0rem;
-        left: 3.5rem;
-        padding-inline: 1em;
+        left: 3.3rem;
+        width: 10rem;
+        padding: 0.5rem;
         text-align: center;
-        transition: ease-out 0.5s;
-        animation: slideout 0.2s linear;
+        border-radius: 1rem;
+        transition: 0.2s;
+        animation: fade 0.1s linear;
         cursor: pointer;
-        @keyframes slideout {
+        @keyframes fade {
           from {
-            left: 2rem;
+            opacity: 0;
           }
           to {
-            left: 3.5rem;
+            opacity: 1;
           }
         }
         &:hover,

@@ -15,28 +15,32 @@ export default {
     return {
       mobileMode: false,
       isAuth: this.$auth0.isAuthenticated,
+      screenSize: window.matchMedia("(max-width:35rem)"),
+      isLoading: this.$auth0.isLoading,
     };
   },
   created() {
     this.$store.dispatch("loadToken");
-    let screenSize = window.matchMedia("(max-width:35rem)");
-    if (screenSize.matches) {
+    if (this.screenSize.matches) {
       this.mobileMode = true;
     } else this.mobileMode = false;
   },
-  mounted() {
-    setTimeout(() => {
+
+  watch: {
+    async isLoading() {
       if (!this.isAuth) {
         this.$store.commit("updateToken", "");
+      } else {
+        await this.$auth0.checkSession();
       }
-    }, 1);
+    },
   },
 };
 </script>
 <style lang="scss">
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@200&family=Montserrat:wght@200&display=swap");
-$primaryBackgroundColor: white;
-$secondaryBackgroundColor: rgb(219, 198, 198);
+@import "@/assets/variable.scss";
+
 * {
   font-family: "Inter", sans-serif;
   color: black;

@@ -87,10 +87,6 @@ export default {
     pathListToggle() {
       this.showPathMenu = !this.showPathMenu;
       this.emitter.emit("pathList", this.showPathMenu);
-      if (!this.showPathMenu) {
-        this.$store.commit("setMarkerVisibility", false);
-        this.$store.commit("setLocations", []);
-      }
     },
   },
   watch: {
